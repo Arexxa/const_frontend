@@ -1,10 +1,10 @@
-import axiosInstance from './axios';
+import baseUrl from "./axios";
 
 const api = {
   // Create operation
   create: async (resource, data) => {
     try {
-      const response = await axiosInstance.post(`/${resource}`, data);
+      const response = await baseUrl.post(`/${resource}`, data);
       return response.data;
     } catch (error) {
       throw error;
@@ -14,7 +14,7 @@ const api = {
   // Read operation
   read: async (resource, id) => {
     try {
-      const response = await axiosInstance.get(`/${resource}/${id}`);
+      const response = await baseUrl.get(`/${resource}/${id}`);
       return response.data;
     } catch (error) {
       throw error;
@@ -24,7 +24,7 @@ const api = {
   // Update operation
   update: async (resource, id, data) => {
     try {
-      const response = await axiosInstance.put(`/${resource}/${id}`, data);
+      const response = await baseUrl.put(`/${resource}/${id}`, data);
       return response.data;
     } catch (error) {
       throw error;
@@ -34,7 +34,7 @@ const api = {
   // Delete operation
   delete: async (resource, id) => {
     try {
-      const response = await axiosInstance.delete(`/${resource}/${id}`);
+      const response = await baseUrl.delete(`/${resource}/${id}`);
       return response.data;
     } catch (error) {
       throw error;

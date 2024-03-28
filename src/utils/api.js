@@ -16,10 +16,10 @@
 
 // export default baseUrl();
 
-import axios from 'axios';
+import axios from "axios";
 
 const baseUrl = axios.create({
-  baseURL: 'http://localhost:3000', // Update with your API base URL
+  baseURL: "http://192.168.1.23:3000", // Update with your API base URL
 });
 
 export default baseUrl;
