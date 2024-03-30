@@ -19,43 +19,86 @@ function Login() {
     }
 
     return (
-        <div className="w-full h-screen flex flex-col justify-start ">
-            <div className="flex flex-col justify-center items-center h-full">
-                <form className="p-4" onSubmit={handleLogin}>
-                    <div className="flex flex-col justify-center items-center">
-                        <input
-                            type="text"
-                            name="username"
-                            id="username"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="abcd"
-                            required=""
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            placeholder="••••••••"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            required=""
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
+    <div className="bg-white dark:bg-gray-900">
+        <div className="flex justify-center h-screen">
+            <div className="hidden bg-cover lg:block lg:w-2/3 bg-[url('https://images.unsplash.com/photo-1565728744382-61accd4aa148?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')]">
+                <div className="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
+                    <div>
+                        <h2 className="text-left text-2xl font-bold text-white sm:text-3xl">Consultant UI</h2>
+
+                        <p className="text-left max-w-xl mt-3 text-gray-300">
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. In
+                            autem ipsa, nulla laboriosam dolores, repellendus perferendis libero suscipit nam temporibus
+                            molestiae
+                        </p>
                     </div>
-                    <button
-                        type="submit"
-                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                    >
-                        Sign in
-                    </button>
-                </form>
-                <div>
-                    <div onClick={handleRegister}>Sign Up</div>
+                </div>
+            </div>
+
+            <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
+                <div className="flex-1">
+                    <div className="text-center">
+                        <div className="flex justify-center mx-auto">
+                            <img
+                              className="w-auto h-7 sm:h-8"
+                              src="https://merakiui.com/images/logo.svg"
+                              alt="Your Company"
+                            />
+                        </div>
+
+                        <p className="mt-3 text-gray-500 dark:text-gray-300">Sign in to access your account</p>
+                    </div>
+
+                    <div className="mt-8">
+                        <form className="space-y-6" onSubmit={handleLogin}>
+                            <div>
+                                <label htmlFor="username" className="text-left block mb-2 text-sm text-gray-600 dark:text-gray-200">Username</label>
+                                <input
+                                    type="text"
+                                    name="username"
+                                    id="username"
+                                    className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                                    placeholder="abcd"
+                                    required=""
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                            </div>
+
+                            <div className="mt-6">
+                                <div className="flex justify-between mb-2">
+                                    <label htmlFor="password" className="text-sm text-gray-600 dark:text-gray-200">Password</label>
+                                    <a href="#" className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline">Forgot password?</a>
+                                </div>
+
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="••••••••"
+                                    className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                                    required=""
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                            </div>
+
+                            <div className="mt-6">
+                                <button
+                                    type="submit"
+                                    className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                                        Sign in
+                                </button>
+                            </div>
+
+                        </form>
+
+                        <p className="mt-6 text-sm text-center text-gray-400">Don&#x27;t have an account yet? <a href="" onClick={handleRegister} className="text-blue-500 focus:outline-none focus:underline hover:underline">Sign up</a>.</p>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
     )
 }
 
