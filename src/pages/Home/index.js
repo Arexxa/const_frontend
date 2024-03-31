@@ -1,6 +1,12 @@
 import React from "react";
 import Navbar from "../../components/Navbar";
-import ComboBox from "../../components/ComboBox"; // Import the ComboBox component
+import ComboBox from "../../components/Combobox";
+
+const options = [
+  { id: 1, name: 'Option 1' },
+  { id: 2, name: 'Option 2' },
+  { id: 3, name: 'Option 3' }
+];
 
 function Home() {
   return (
@@ -27,7 +33,7 @@ function Home() {
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4">
-              <ComboBox width="full" options={["Select an option", "Option 1", "Option 2", "Option 3"]} zIndex={20} />
+              <ComboBox options={options} />
             </div>
           </div>
         </div>
