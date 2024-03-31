@@ -11,12 +11,11 @@ export const RegisterProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [error, setError] = useState(null)
 
-    const register = async (username, password) => {
+    const register = async (name, email, password) => {
         try {
             const response = await baseUrl.post('/register', {
-                // email,
-                // fullname,
-                username,
+                name,
+                email,
                 password,
             })
             console.log('Register successful', response)

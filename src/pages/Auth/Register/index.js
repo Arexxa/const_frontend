@@ -6,13 +6,14 @@ function Register() {
     const { user, error, register } = useRegister()
     // const [email, setEmail] = useState('')
     // const [fullname, setFullname] = useState('')
-    const [username, setUsername] = useState('')
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
 
     const handleRegister = async (e) => {
         e.preventDefault()
-        await register(username, password)
+        await register(name, email, password)
     }
 
     useEffect(() => {
@@ -39,17 +40,32 @@ function Register() {
 
                         <form className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2" onSubmit={handleRegister}>
                             <div>
-                                <label htmlFor="username" className="text-left block mb-2 text-sm text-gray-600 dark:text-gray-200">Username</label>
+                                <label htmlFor="name" className="text-left block mb-2 text-sm text-gray-600 dark:text-gray-200">Fullname</label>
                                 <input
                                     type="text"
-                                    name="username"
-                                    id="username"
+                                    name="name"
+                                    id="name"
                                     autoComplete="off"
                                     className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                                    placeholder="John"
+                                    placeholder="John Doe"
                                     required=""
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </div>
+
+                            <div>
+                                <label htmlFor="email" className="text-left block mb-2 text-sm text-gray-600 dark:text-gray-200">Email</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    autoComplete="off"
+                                    className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                                    placeholder="example@example.com"
+                                    required=""
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
 
@@ -67,6 +83,7 @@ function Register() {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
+                            <div></div>
 
                             <button
                                 type="submit"

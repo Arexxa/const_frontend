@@ -11,10 +11,10 @@ export const LoginProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [error, setError] = useState(null)
 
-    const login = async (username, password) => {
+    const login = async (email, password) => {
         try {
             const response = await baseUrl.post('/login', {
-                username,
+                email,
                 password,
             })
             console.log('Login successful', response.data)
