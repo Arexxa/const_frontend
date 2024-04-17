@@ -3,12 +3,13 @@
 @tailwind utilities;
 
 #root {
-  --primary: #0abab5;
+  --primary: #FBA91A;
   --secondary: #0ce6df;
   --accent: #718096;
   --background: #fff;
   --main: #0d0106;
   --header: #2d3748;
+  --link: #3583F7
 }
 
 body {
@@ -23,4 +24,50 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.bg-primary {
+  --tw-bg-opacity: 1;
+  background-color: var(--primary);
+}
+
+.bg-image {
+  background-image: url(/src/media/bg/bg-login.jpg)
+}
+
+.text-link {
+  color: var(--link);
+}
+
+.social-signin-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.google-signin-button,
+.linkedin-signin-button {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center content horizontally */
+  padding: 10px 20px;
+  border: 0.5px solid #838383;
+  border-radius: 6px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.text {
+  margin-left: 10px;
+}
+
+.logo {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
 }
