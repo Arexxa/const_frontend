@@ -6,11 +6,13 @@ import Register from '../pages/Auth/Register'
 import NotFound from '../pages/Error/NotFound'
 import Profile from '../pages/Profile'
 import UserManagement from '../pages/admin/usermanagement'
+import Landing from '../pages/Landing'
 
 const AppRoutes = () => {
     return (
         <Routes>
             <Route exact path="/" element={<Login />} />
+            <Route exact path="/landing" element={<Landing />} />
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/home" element={<Home />} />
             <Route exact path="/profile" element={<Profile />} />

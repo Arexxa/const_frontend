@@ -2,16 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=ABeeZee&display=swap');
+
 #root {
-  --primary: #0abab5;
-  --secondary: #0ce6df;
-  --accent: #718096;
-  --background: #fff;
-  --main: #0d0106;
-  --header: #2d3748;
+    --primary: #0abab5;
+    --secondary: #0ce6df;
+    --accent: #718096;
+    --background: #fff;
+    --main: #0d0106;
+    --header: #2d3748;
 }
 
-body {
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -23,4 +26,12 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+} */
+body {
+    font-family: 'ABeeZee', sans-serif;
+    background-color: #fafafa;
+}
+
+.abel {
+    font-family: 'Abel';
 }
