@@ -80,10 +80,12 @@ function Login() {
                             </div>
                         </div>
 
-                        <div className="text-center">
-                            <p className="mt-8 text-gray-500 dark:text-gray-300">
-                                or
-                            </p>
+                        <div className="flex items-center justify-between mt-8">
+                            <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
+                                <p className="text-gray-500 dark:text-gray-300">
+                                    or
+                                </p>
+                            <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
                         </div>
 
                         <div className="mt-8">

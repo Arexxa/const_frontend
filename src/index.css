@@ -31,6 +31,18 @@ code {
   background-color: var(--primary);
 }
 
+.custom-primary {
+  background: linear-gradient(white, white) padding-box, linear-gradient(90deg, #FF35F7 0%, #DAB700 58.54%, #F5537C 103.2%) border-box;
+  border-radius: 9px;
+  border: 0.5px solid transparent;
+}
+
+.stepper-secondary {
+  background: linear-gradient(white, white) padding-box, linear-gradient(#C1C0C0, #C1C0C0) border-box;
+  border-radius: 9px;
+  border: 0.5px solid transparent;
+}
+
 .bg-image {
   background-image: url(/src/media/bg/bg-login.jpg)
 }
@@ -71,3 +83,4 @@ code {
   height: 24px;
   margin-right: 10px;
 }
+
