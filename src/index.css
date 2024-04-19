@@ -40,3 +40,20 @@ body {
 .jakarta {
     font-family: 'Plus Jakarta Sans';
 }
+.circularBg {
+    background-image: url(../../assets/circular-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.cubicBg {
+    background-image: url(../../assets/cubic-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.gradientBg {
+    background-image: url(../../assets/top-question-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
