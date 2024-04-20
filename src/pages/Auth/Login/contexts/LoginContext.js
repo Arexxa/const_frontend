@@ -17,11 +17,11 @@ export const LoginProvider = ({ children }) => {
                 email,
                 password,
             })
-            console.log('Login successful', response.data)
-            setUser(response.data.user)
+            console.log('Login successful', response)
+            setUser('Success')
         } catch (error) {
-            console.error('Login failed', error.response.data)
-            setError(error.response.data)
+            console.error('Login failed!', error)
+            setError('Failed')
         }
     }
 
