@@ -160,8 +160,12 @@ function Register() {
                     </li>
                     <li className="relative flex-1 after:empty-content after:w-0.5 after:h-full after:bg-gray-200 after:inline-block after:absolute after:-bottom-11 after:left-1/2">
                         <div className="flex items-center justify-center gap-8 w-full max-w-sm">
-                            <div className="flex items-center gap-3.5 bg-gray-50 p-3.5 rounded-xl relative z-10 border border-gray-50 stepper-secondary w-full">
-                                <div className="rounded-lg bg-gray-400 flex items-center justify-center">
+                            <div
+                                className={`flex items-center gap-3.5 bg-gray-50 p-3.5 rounded-xl relative z-10 border border-gray-50 w-full ${step >= 2 ? 'custom-primary' : 'stepper-secondary'}`}
+                            >
+                                <div
+                                    className={`rounded-lg  flex items-center justify-center ${step >= 2 ? 'bg-primary' : 'bg-gray-400'}`}
+                                >
                                     <span className="text-gray-600 p-3">
                                         <svg
                                             width="25"
@@ -192,8 +196,12 @@ function Register() {
                     </li>
                     <li className="relative flex-1 ">
                         <div className="flex items-center justify-center gap-8 w-full max-w-sm">
-                            <div className="flex items-center gap-3.5 bg-gray-50 p-3.5 rounded-xl relative z-10 border border-gray-50 stepper-secondary w-full">
-                                <div className="rounded-lg bg-gray-400 flex items-center justify-center">
+                            <div
+                                className={`flex items-center gap-3.5 bg-gray-50 p-3.5 rounded-xl relative z-10 border border-gray-50 w-full ${step >= 3 ? 'custom-primary' : 'stepper-secondary'}`}
+                            >
+                                <div
+                                    className={`rounded-lg  flex items-center justify-center ${step >= 3 ? 'bg-primary' : 'bg-gray-400'}`}
+                                >
                                     <span className="text-gray-600 p-3">
                                         <svg
                                             width="23"
