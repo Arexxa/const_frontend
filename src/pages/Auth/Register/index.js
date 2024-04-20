@@ -85,14 +85,16 @@ function Register() {
 
     const handleFileUpload = (event, type) => {
         const file = event.target.files[0]
+        const fileName = file.name // Access the file name
+
         const reader = new FileReader()
 
         reader.onload = () => {
             const fileURL = reader.result
             if (type === 'coverLetter') {
-                setCoverLetter(fileURL)
+                setCoverLetter({ url: fileURL, name: fileName }) // Save file URL and name
             } else if (type === 'resume') {
-                setResume(fileURL)
+                setResume({ url: fileURL, name: fileName }) // Save file URL and name
             }
         }
 
@@ -971,13 +973,10 @@ function Register() {
                                                                 type="file"
                                                                 className="sr-only"
                                                                 required=""
-                                                                value={
-                                                                    coverLetter
-                                                                }
                                                                 onChange={(e) =>
-                                                                    setCoverLetter(
-                                                                        e.target
-                                                                            .value
+                                                                    handleFileUpload(
+                                                                        e,
+                                                                        'coverLetter'
                                                                     )
                                                                 }
                                                             />
@@ -1028,11 +1027,10 @@ function Register() {
                                                                 type="file"
                                                                 className="sr-only"
                                                                 required=""
-                                                                value={resume}
                                                                 onChange={(e) =>
-                                                                    setResume(
-                                                                        e.target
-                                                                            .value
+                                                                    handleFileUpload(
+                                                                        e,
+                                                                        'resume'
                                                                     )
                                                                 }
                                                             />
@@ -1047,6 +1045,84 @@ function Register() {
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
+                                        {coverLetter && (
+                                            <div>
+                                                <label
+                                                    for="coverLetter"
+                                                    className="text-left block mb-2 text-sm text-gray-600 dark:text-gray-200"
+                                                >
+                                                    Uploaded cover letter
+                                                </label>
+                                                <div className="flex justify-between border-2 rounded border-gray-200 p-2">
+                                                    <p className="text-black text-left">
+                                                        {coverLetter.name}
+                                                    </p>
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        strokeWidth={1.5}
+                                                        stroke="currentColor"
+                                                        className="w-6 h-6 text-[#C1C0C0] hover:text-gray-400 mt-1 cursor-pointer"
+                                                        onClick={() =>
+                                                            handleFileDelete(
+                                                                'coverLetter'
+                                                            )
+                                                        }
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M6 18 18 6M6 6l12 12"
+                                                        />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        )}
+                                        {resume && (
+                                            <div>
+                                                <label
+                                                    for="coverLetter"
+                                                    className="text-left block mb-2 text-sm text-gray-600 dark:text-gray-200"
+                                                >
+                                                    Uploaded resume
+                                                </label>
+                                                <div className="flex justify-between border-2 rounded border-gray-200 p-2">
+                                                    <p>{resume.name}</p>
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        strokeWidth={1.5}
+                                                        stroke="currentColor"
+                                                        className="w-6 h-6 text-[#C1C0C0] hover:text-gray-400 mt-1 cursor-pointer"
+                                                        onClick={() =>
+                                                            handleFileDelete(
+                                                                'resume'
+                                                            )
+                                                        }
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M6 18 18 6M6 6l12 12"
+                                                        />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-1">
+                                        <button
+                                            type="submit"
+                                            className="mt-6 flex items-center justify-center w-full px-6 py-3 tracking-wide text-white capitalize transition-colors duration-300 transform bg-primary hover:bg-yellow-300 focus:outline-none focus:bg-yellow-300 focus:ring focus:ring-yellow-200 rounded-lg focus:ring-opacity-50"
+                                        >
+                                            <span>Update Profile</span>
+                                        </button>
                                     </div>
                                 </form>
                             </>
