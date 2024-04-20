@@ -940,7 +940,7 @@ function Register() {
                                     <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
                                         <div className="">
                                             <label
-                                                for="coverLetter"
+                                                htmlFor="coverLetter"
                                                 className="text-left block mb-2 text-sm text-gray-600 dark:text-gray-200"
                                             >
                                                 Cover letter
@@ -948,20 +948,22 @@ function Register() {
                                             <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                                 <div className="text-center">
                                                     <svg
+                                                        width="41"
+                                                        height="39"
+                                                        viewBox="0 0 41 39"
                                                         className="mx-auto h-12 w-12 text-gray-300"
-                                                        viewBox="0 0 24 24"
-                                                        fill="currentColor"
-                                                        aria-hidden="true"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
                                                     >
                                                         <path
-                                                            fill-rule="evenodd"
-                                                            d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                                                            clip-rule="evenodd"
+                                                            d="M23.0625 10.3594V0H7.04688C5.98184 0 5.125 0.815039 5.125 1.82812V37.1719C5.125 38.185 5.98184 39 7.04688 39H33.9531C35.0182 39 35.875 38.185 35.875 37.1719V12.1875H24.9844C23.9273 12.1875 23.0625 11.3648 23.0625 10.3594ZM28.282 26.8133H23.0625V32.907C23.0625 33.5804 22.4891 34.1258 21.7812 34.1258H19.2188C18.5109 34.1258 17.9375 33.5804 17.9375 32.907V26.8133H12.718C11.5745 26.8133 11.0035 25.4963 11.8155 24.7292L19.5367 17.4396C20.0692 16.9361 20.9292 16.9361 21.4617 17.4396L29.1829 24.7292C29.9957 25.4963 29.4255 26.8133 28.282 26.8133ZM35.3145 7.99805L27.4748 0.533203C27.1145 0.19043 26.626 0 26.1135 0H25.625V9.75H35.875V9.28535C35.875 8.80547 35.6748 8.34082 35.3145 7.99805Z"
+                                                            fill="#838383"
                                                         />
                                                     </svg>
+
                                                     <div className="mt-4 flex text-sm leading-6 text-gray-600">
                                                         <label
-                                                            for="coverLetter"
+                                                            htmlFor="coverLetter"
                                                             className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                                                         >
                                                             <span>
@@ -986,7 +988,7 @@ function Register() {
                                                         </p>
                                                     </div>
                                                     <p className="text-xs leading-5 text-gray-600">
-                                                        500 MB fize size
+                                                        500 MB max fize size
                                                     </p>
                                                 </div>
                                             </div>
@@ -994,7 +996,7 @@ function Register() {
 
                                         <div className="">
                                             <label
-                                                for="resume"
+                                                htmlFor="resume"
                                                 className="text-left block mb-2 text-sm text-gray-600 dark:text-gray-200"
                                             >
                                                 Resume
@@ -1002,20 +1004,21 @@ function Register() {
                                             <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                                 <div className="text-center">
                                                     <svg
+                                                        width="41"
+                                                        height="39"
+                                                        viewBox="0 0 41 39"
                                                         className="mx-auto h-12 w-12 text-gray-300"
-                                                        viewBox="0 0 24 24"
-                                                        fill="currentColor"
-                                                        aria-hidden="true"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
                                                     >
                                                         <path
-                                                            fill-rule="evenodd"
-                                                            d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                                                            clip-rule="evenodd"
+                                                            d="M23.0625 10.3594V0H7.04688C5.98184 0 5.125 0.815039 5.125 1.82812V37.1719C5.125 38.185 5.98184 39 7.04688 39H33.9531C35.0182 39 35.875 38.185 35.875 37.1719V12.1875H24.9844C23.9273 12.1875 23.0625 11.3648 23.0625 10.3594ZM28.282 26.8133H23.0625V32.907C23.0625 33.5804 22.4891 34.1258 21.7812 34.1258H19.2188C18.5109 34.1258 17.9375 33.5804 17.9375 32.907V26.8133H12.718C11.5745 26.8133 11.0035 25.4963 11.8155 24.7292L19.5367 17.4396C20.0692 16.9361 20.9292 16.9361 21.4617 17.4396L29.1829 24.7292C29.9957 25.4963 29.4255 26.8133 28.282 26.8133ZM35.3145 7.99805L27.4748 0.533203C27.1145 0.19043 26.626 0 26.1135 0H25.625V9.75H35.875V9.28535C35.875 8.80547 35.6748 8.34082 35.3145 7.99805Z"
+                                                            fill="#838383"
                                                         />
                                                     </svg>
                                                     <div className="mt-4 flex text-sm leading-6 text-gray-600">
                                                         <label
-                                                            for="resume"
+                                                            htmlFor="resume"
                                                             className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                                                         >
                                                             <span>
@@ -1051,7 +1054,7 @@ function Register() {
                                         {coverLetter && (
                                             <div>
                                                 <label
-                                                    for="coverLetter"
+                                                    htmlFor="coverLetter"
                                                     className="text-left block mb-2 text-sm text-gray-600 dark:text-gray-200"
                                                 >
                                                     Uploaded cover letter
@@ -1085,7 +1088,7 @@ function Register() {
                                         {resume && (
                                             <div>
                                                 <label
-                                                    for="coverLetter"
+                                                    htmlFor="coverLetter"
                                                     className="text-left block mb-2 text-sm text-gray-600 dark:text-gray-200"
                                                 >
                                                     Uploaded resume
@@ -1109,6 +1112,23 @@ function Register() {
                                                             strokeLinecap="round"
                                                             strokeLinejoin="round"
                                                             d="M6 18 18 6M6 6l12 12"
+                                                        />
+                                                    </svg>
+                                                    <svg
+                                                        width="41"
+                                                        height="39"
+                                                        viewBox="0 0 41 39"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        onClick={() =>
+                                                            handleFileDelete(
+                                                                'resume'
+                                                            )
+                                                        }
+                                                    >
+                                                        <path
+                                                            d="M23.0625 10.3594V0H7.04688C5.98184 0 5.125 0.815039 5.125 1.82812V37.1719C5.125 38.185 5.98184 39 7.04688 39H33.9531C35.0182 39 35.875 38.185 35.875 37.1719V12.1875H24.9844C23.9273 12.1875 23.0625 11.3648 23.0625 10.3594ZM28.282 26.8133H23.0625V32.907C23.0625 33.5804 22.4891 34.1258 21.7812 34.1258H19.2188C18.5109 34.1258 17.9375 33.5804 17.9375 32.907V26.8133H12.718C11.5745 26.8133 11.0035 25.4963 11.8155 24.7292L19.5367 17.4396C20.0692 16.9361 20.9292 16.9361 21.4617 17.4396L29.1829 24.7292C29.9957 25.4963 29.4255 26.8133 28.282 26.8133ZM35.3145 7.99805L27.4748 0.533203C27.1145 0.19043 26.626 0 26.1135 0H25.625V9.75H35.875V9.28535C35.875 8.80547 35.6748 8.34082 35.3145 7.99805Z"
+                                                            fill="#838383"
                                                         />
                                                     </svg>
                                                 </div>
