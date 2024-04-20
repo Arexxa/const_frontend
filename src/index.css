@@ -7,12 +7,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap');
 
 #root {
-    --primary: #0abab5;
+    --primary: #fba91a;
     --secondary: #0ce6df;
     --accent: #718096;
     --background: #fff;
     --main: #0d0106;
     --header: #2d3748;
+    --link: #3583f7;
 }
 
 /* body {
@@ -56,4 +57,67 @@ body {
     background-image: url(../../assets/top-question-bg.png);
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.bg-primary {
+    --tw-bg-opacity: 1;
+    background-color: var(--primary);
+}
+
+.custom-primary {
+    background:
+        linear-gradient(white, white) padding-box,
+        linear-gradient(90deg, #ff35f7 0%, #dab700 58.54%, #f5537c 103.2%)
+            border-box;
+    border-radius: 9px;
+    border: 0.5px solid transparent;
+}
+
+.stepper-secondary {
+    background:
+        linear-gradient(white, white) padding-box,
+        linear-gradient(#c1c0c0, #c1c0c0) border-box;
+    border-radius: 9px;
+    border: 0.5px solid transparent;
+}
+
+.bg-image {
+    background-image: url(/src/media/bg/bg-login.jpg);
+}
+
+.text-link {
+    color: var(--link);
+}
+
+.social-signin-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.google-signin-button,
+.linkedin-signin-button {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    padding: 10px 20px;
+    border: 0.5px solid #838383;
+    border-radius: 6px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.icon {
+    margin-right: 10px;
+}
+
+.text {
+    margin-left: 10px;
+}
+
+.logo {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
 }

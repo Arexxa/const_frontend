@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLogin } from './contexts/LoginContext'
+import googleLogo from '../../../media/icon/google-logo.png';
+import linkedinLogo from '../../../media/icon/linkedin-logo.png';
 
 function Login() {
     const { user, error, login } = useLogin()
@@ -26,8 +28,8 @@ function Login() {
     return (
         <div className="bg-white dark:bg-gray-900">
             <div className="flex justify-center h-screen">
-                <div className="hidden bg-cover lg:block lg:w-2/3 bg-[url('https://images.unsplash.com/photo-1565728744382-61accd4aa148?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')]">
-                    <div className="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
+                <div className="hidden bg-cover lg:block lg:w-2/5 bg-image">
+                    {/* <div className="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
                         <div>
                             <h2 className="text-left text-2xl font-bold text-white sm:text-3xl">
                                 Consultant UI
@@ -40,12 +42,18 @@ function Login() {
                                 libero suscipit nam temporibus molestiae
                             </p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
-                <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
+                <div className="flex items-center w-full max-w-xl px-6 mx-auto lg:w-4/5">
                     <div className="flex-1">
-                        <div className="text-center">
+                        <p className="text-left text-2xl mt-3 dark:text-gray-300">
+                            Login to your account
+                        </p>
+                        <p className="text-left text-gray-500 text-lg mt-3 dark:text-gray-300">
+                        Continue tracking your consultation progress after login into your account
+                        </p>
+                        {/* <div className="text-center">
                             <div className="flex justify-center mx-auto">
                                 <img
                                     className="w-auto h-7 sm:h-8"
@@ -57,6 +65,27 @@ function Login() {
                             <p className="mt-3 text-gray-500 dark:text-gray-300">
                                 Sign in to access your account
                             </p>
+                        </div> */}
+
+                        <div className="mt-8">
+                            <div className="social-signin-buttons">
+                                <button className="google-signin-button">
+                                    <img src={googleLogo} alt="Google Logo" className="logo" />
+                                    Sign in with Google
+                                </button>
+                                <button className="linkedin-signin-button">
+                                    <img src={linkedinLogo} alt="LinkedIn Logo" className="logo" />
+                                    Sign in with LinkedIn
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center justify-between mt-8">
+                            <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
+                                <p className="text-gray-500 dark:text-gray-300">
+                                    or
+                                </p>
+                            <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
                         </div>
 
                         <div className="mt-8">
@@ -90,12 +119,12 @@ function Login() {
                                         >
                                             Password
                                         </label>
-                                        <a
+                                        {/* <a
                                             href="#"
                                             className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline"
                                         >
                                             Forgot password?
-                                        </a>
+                                        </a> */}
                                     </div>
 
                                     <input
@@ -110,26 +139,34 @@ function Login() {
                                             setPassword(e.target.value)
                                         }
                                     />
+                                    <div className="flex justify-end mb-2 mt-2">
+                                        <a
+                                            href="#"
+                                            className="text-sm text-link focus:text-blue-400 hover:text-blue-400 hover:underline"
+                                        >
+                                            Forgot password?
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <div className="mt-6">
                                     <button
                                         type="submit"
-                                        className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                                        className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-300 transform rounded-lg bg-primary hover:bg-yellow-300 focus:outline-none focus:bg-yellow-300 focus:ring focus:ring-yellow-200 focus:ring-opacity-50"
                                     >
-                                        Sign in
+                                        Continue
                                     </button>
                                 </div>
                             </form>
 
-                            <p className="mt-6 text-sm text-center text-gray-400">
-                                Don&#x27;t have an account yet?{' '}
+                            <p className="flex mt-2 text-sm text-center">
+                                First time login ? Create new account{' '}
                                 <a
                                     href=""
                                     onClick={handleRegister}
                                     className="text-blue-500 focus:outline-none focus:underline hover:underline"
                                 >
-                                    Sign up
+                                    &nbsp;Sign up
                                 </a>
                                 .
                             </p>
