@@ -1,6 +1,22 @@
 import React from 'react'
 
-function RegisterForm1(name, email, password, confirmPassword, onSubmit) {
+function RegisterForm1({
+    name,
+    email,
+    password,
+    confirmPassword,
+    setName,
+    setEmail,
+    setPassword,
+    setConfirmPassword,
+    onSubmit,
+    onClick,
+}) {
+    const handleSubmit = (e) => {
+        e?.preventDefault()
+        onSubmit()
+    }
+
     return (
         <>
             <h1 className="abel text-left text-2xl font-semibold tracking-wider text-gray-800 capitalize dark:text-white">
@@ -12,7 +28,7 @@ function RegisterForm1(name, email, password, confirmPassword, onSubmit) {
             </p>
             <form
                 className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-1"
-                onSubmit={handleRegister}
+                onSubmit={handleSubmit}
             >
                 <div>
                     <label
@@ -90,7 +106,7 @@ function RegisterForm1(name, email, password, confirmPassword, onSubmit) {
                         className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                         required=""
                         value={confirmPassword}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                 </div>
 
@@ -106,7 +122,7 @@ function RegisterForm1(name, email, password, confirmPassword, onSubmit) {
                         <p className="text-left text-sm">
                             <a
                                 href=""
-                                onClick={handleSkip}
+                                onClick={onClick}
                                 className="abel text-sm text-blue-500 focus:outline-none focus:underline hover:underline"
                             >
                                 Skip to login page
@@ -117,7 +133,7 @@ function RegisterForm1(name, email, password, confirmPassword, onSubmit) {
                         <p className="text-right text-sm">
                             <a
                                 href=""
-                                onClick={handleSkip}
+                                onClick={onClick}
                                 className="abel text-sm text-blue-500 focus:outline-none focus:underline hover:underline"
                             >
                                 Continue
