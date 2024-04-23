@@ -5,8 +5,10 @@ import {
     CogIcon,
     BriefcaseIcon ,
     HomeIcon,
-    UserIcon,
+    UserIcon
 } from '@heroicons/react/solid'
+import { useLogin } from '../../pages/Auth/Login/contexts/LoginContext';
+import { useNavigate } from 'react-router-dom';
 
 const navigation = [
   { name: 'Dashboard', href: '/home', icon: HomeIcon, current: false },
@@ -21,12 +23,26 @@ const teams = [
   { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
 ]
 
+const ArrowRightEndOnRectangleIcon = () => (
+<svg dataslot="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="h-6 w-6">
+  <path clipRule="evenodd" fillRule="evenodd" d="M17 4.25A2.25 2.25 0 0 0 14.75 2h-5.5A2.25 2.25 0 0 0 7 4.25v2a.75.75 0 0 0 1.5 0v-2a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 .75.75v11.5a.75.75 0 0 1-.75.75h-5.5a.75.75 0 0 1-.75-.75v-2a.75.75 0 0 0-1.5 0v2A2.25 2.25 0 0 0 9.25 18h5.5A2.25 2.25 0 0 0 17 15.75V4.25Z" />
+  <path clipRule="evenodd" fillRule="evenodd" d="M1 10a.75.75 0 0 1 .75-.75h9.546l-1.048-.943a.75.75 0 1 1 1.004-1.114l2.5 2.25a.75.75 0 0 1 0 1.114l-2.5 2.25a.75.75 0 1 1-1.004-1.114l1.048-.943H1.75A.75.75 0 0 1 1 10Z" />
+</svg>
+);
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { logout } = useLogin();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+      logout(); // Call logout function
+      navigate('/'); // Navigate to home page using navigate
+  };
 
   return (
     <>
@@ -120,6 +136,7 @@ export default function Example() {
                           </ul>
                         </li>
                         <li>
+                          
                           <div className="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
                           <ul role="list" className="-mx-2 mt-2 space-y-1">
                             {teams.map((team) => (
@@ -192,19 +209,23 @@ export default function Example() {
                     ))}
                   </ul>
                 </li>
-                <li className="-mx-6 mt-auto">
-                  <a
-                    href="#"
-                    className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
+                <li className="flex justify-center mt-auto">
+                  <button
+                      className={classNames(
+                          'mb-6 text-gray-700 hover:text-orange-500',
+                          'group flex gap-x-3 rounded-lg p-2 text-sm leading-6 font-semibold'
+                      )}
+                      onClick={handleLogout}
                   >
-                    <img
-                      className="h-8 w-8 rounded-full bg-gray-50"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
-                    <span className="sr-only">Your profile</span>
-                    <span aria-hidden="true">Tom Cook</span>
-                  </a>
+                      <ArrowRightEndOnRectangleIcon
+                          className={classNames(
+                              'text-gray-400 group-hover:text-orange-500',
+                              'h-6 w-6 shrink-0'
+                          )}
+                          aria-hidden="true"
+                      />
+                      Sign Out
+                  </button>
                 </li>
               </ul>
             </nav>
