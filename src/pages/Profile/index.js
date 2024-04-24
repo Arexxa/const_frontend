@@ -1,48 +1,78 @@
-import { useState } from 'react'
-// import Navbar from "../../components/Navbar";
+import React, { useEffect, useState } from 'react';
 import Sidebar from "../../components/Sidebar";
-import { Switch } from '@headlessui/react'
-// import { MagnifyingGlassIcon } from '@heroicons/react/solid'
 import {
-  BellIcon,
-  CogIcon,
-  CreditCardIcon,
-  KeyIcon,
-  UserCircleIcon,
   PencilIcon,
   TrashIcon
 } from '@heroicons/react/outline'
-
-const SquaresPlusIcon = () => {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="text-gray-400 group-hover:text-gray-500 -ml-1 mr-3 h-6 w-6 flex-shrink-0">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z" />
-    </svg>
-  );
-};
+import { useLogin } from '../Auth/Login/contexts/LoginContext';
+import { useProfile } from './contexts/ProfileContexts';
+import SlideDialog from './contexts/SlideDialog';
 
 const user = {
-  name: 'Debbie Lewis',
+  name: 'Ben Said',
   handle: 'deblewis',
   email: 'debbielewis@example.com',
   imageUrl:
     'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80',
 }
 
-const subNavigation = [
-  { name: 'Profile', href: '/profile', icon: UserCircleIcon, current: true },
-  { name: 'Account', href: '#', icon: CogIcon, current: false },
-  { name: 'Password', href: '#', icon: KeyIcon, current: false },
-  { name: 'Notifications', href: '#', icon: BellIcon, current: false },
-  { name: 'Billing', href: '#', icon: CreditCardIcon, current: false },
-  { name: 'Integrations', href: '#', icon: SquaresPlusIcon, current: false },
-]
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function Profile() {
+  const { userData } = useLogin();
+  const { userProfile, fetchUserProfile, updateUserProfile } = useProfile();
+  const [formData, setFormData] = useState({});
+
+  const [isOpen, setIsOpen] = useState(false);
+  const handleTogglePanel = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Fetch the current user profile data if available
+      if (userProfile && userProfile[0]) {
+        // Merge the existing user profile data with the form data
+        const updatedData = {
+          userId: userData.userId, // Assuming userData contains the userId
+          updatedProfile: {
+            ...userProfile[0], // Existing user profile data
+            ...formData // Updated form data
+          }
+        };
+        // Update user profile
+        await updateUserProfile(updatedData);
+        console.log('User profile updated successfully!');
+      } else {
+        console.error('User profile data not available.');
+      }
+    } catch (error) {
+      console.error('Error updating user profile:', error);
+    }
+  };
+  
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    // Only update formData if the value is not an empty string
+    if (value !== '') {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+        currentEmployer: 0
+      }));
+    }
+  };
+
+  useEffect(() => {
+    if (userData && !userProfile) {
+      fetchUserProfile(userData.userId);
+    }
+  }, [userData, userProfile, fetchUserProfile]);
+
   return (
     <div className="w-full h-screen flex flex-col justify-start ">
       <Sidebar />
@@ -53,14 +83,13 @@ export default function Example() {
           </div>
         </header>
       </div>
-      
 
       <main className="relative -mt-32 lg:pl-96">
         <div className="mx-auto max-w-7xl px-4 pb-6 sm:px-6 lg:px-8 lg:pb-16">
           <div className="overflow-hidden rounded-lg">
-            <div className="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-x lg:divide-y-0">
+            <div className="divide-y divide-gray-200">
 
-              <form className="text-left divide-y divide-gray-200 lg:col-span-9" action="#" method="POST">
+              <form className="text-left divide-y divide-gray-200 lg:col-span-9" onSubmit={handleSubmit}>
                 {/* Profile section */}
                 <div className="px-4 py-6 sm:p-6 lg:pb-8">
                   
@@ -112,12 +141,17 @@ export default function Example() {
 
                     <div className="flex items-end">
                       <div>
-                        <label htmlFor="username" className="block text-xl font-medium leading-6 text-gray-900">
-                          Ben Said
+                        <label htmlFor="name" className="block text-xl font-medium leading-6 text-gray-900">
+                          Name
                         </label>
-                        <p className="mt-2 text-base text-gray-900">
-                          Project Manager
-                        </p>
+                        <input
+                          type="text"
+                          name="name"
+                          id="name"
+                          value={formData.name || (userProfile && userProfile[0]?.name) || ''}
+                          onChange={handleChange}
+                          className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
+                        />
                       </div>
                     </div>
                   </div>
@@ -136,10 +170,10 @@ export default function Example() {
                       </label>
                       <input
                         type="text"
-                        name="first-name"
-                        id="first-name"
-                        autoComplete="given-name"
-                        defaultValue="bensaid123@gmail.com"
+                        name="email"
+                        id="email"
+                        value={formData.email || userProfile?.[0]?.email || ''}
+                        onChange={handleChange}
                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
                       />
                     </div>
@@ -158,14 +192,15 @@ export default function Example() {
                     </div>
 
                     <div className="col-span-12 sm:col-span-6">
-                      <label htmlFor="location" className="block text-sm font-medium leading-6 text-gray-900">
+                      <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
                         Location
                       </label>
                       <input
                         type="text"
-                        name="location"
-                        id="location"
-                        defaultValue="Kuala Lumpur"
+                        name="city"
+                        id="city"
+                        defaultValue={formData.city || userProfile?.[0]?.city || ''}
+                        onChange={handleChange}
                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
                       />
                     </div>
@@ -183,14 +218,13 @@ export default function Example() {
                       />
                     </div>
                   </div>
-                  
                   <hr className='mt-6'/>
 
                   <div className="mt-6 bg-white border border-gray-200 sm:rounded-lg">
                     <div className="px-4 py-5 sm:p-6">
                       <div className="flex justify-between items-center">
                         <h3 className="text-xl font-semibold leading-6 text-gray-900">Experience</h3>
-                        <button className="flex items-center space-x-1 text-gray-400 hover:text-gray-300">
+                        <button className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={handleTogglePanel}>
                           <PencilIcon className="h-5 w-5 -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
                           <span>Edit</span>
                         </button>
@@ -355,144 +389,20 @@ export default function Example() {
 
                     </div>
                   </div>
+                  <div className="flex justify-end">
+                  <button type="submit" className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+                    Save
+                  </button>
+                  </div>
                 </div>
-
-                {/* Privacy section */}
-                {/* <div className="divide-y divide-gray-200 pt-6">
-                  <div className="px-4 sm:px-6">
-                    <div>
-                      <h2 className="text-lg font-medium leading-6 text-gray-900">Privacy</h2>
-                      <p className="mt-1 text-sm text-gray-500">
-                        Ornare eu a volutpat eget vulputate. Fringilla commodo amet.
-                      </p>
-                    </div>
-                    <ul className="mt-2 divide-y divide-gray-200">
-                      <Switch.Group as="li" className="flex items-center justify-between py-4">
-                        <div className="flex flex-col">
-                          <Switch.Label as="p" className="text-sm font-medium leading-6 text-gray-900" passive>
-                            Available to hire
-                          </Switch.Label>
-                          <Switch.Description className="text-sm text-gray-500">
-                            Nulla amet tempus sit accumsan. Aliquet turpis sed sit lacinia.
-                          </Switch.Description>
-                        </div>
-                        <Switch
-                          checked={availableToHire}
-                          onChange={setAvailableToHire}
-                          className={classNames(
-                            availableToHire ? 'bg-teal-500' : 'bg-gray-200',
-                            'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2'
-                          )}
-                        >
-                          <span
-                            aria-hidden="true"
-                            className={classNames(
-                              availableToHire ? 'translate-x-5' : 'translate-x-0',
-                              'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
-                            )}
-                          />
-                        </Switch>
-                      </Switch.Group>
-                      <Switch.Group as="li" className="flex items-center justify-between py-4">
-                        <div className="flex flex-col">
-                          <Switch.Label as="p" className="text-sm font-medium leading-6 text-gray-900" passive>
-                            Make account private
-                          </Switch.Label>
-                          <Switch.Description className="text-sm text-gray-500">
-                            Pharetra morbi dui mi mattis tellus sollicitudin cursus pharetra.
-                          </Switch.Description>
-                        </div>
-                        <Switch
-                          checked={privateAccount}
-                          onChange={setPrivateAccount}
-                          className={classNames(
-                            privateAccount ? 'bg-teal-500' : 'bg-gray-200',
-                            'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2'
-                          )}
-                        >
-                          <span
-                            aria-hidden="true"
-                            className={classNames(
-                              privateAccount ? 'translate-x-5' : 'translate-x-0',
-                              'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
-                            )}
-                          />
-                        </Switch>
-                      </Switch.Group>
-                      <Switch.Group as="li" className="flex items-center justify-between py-4">
-                        <div className="flex flex-col">
-                          <Switch.Label as="p" className="text-sm font-medium leading-6 text-gray-900" passive>
-                            Allow commenting
-                          </Switch.Label>
-                          <Switch.Description className="text-sm text-gray-500">
-                            Integer amet, nunc hendrerit adipiscing nam. Elementum ame
-                          </Switch.Description>
-                        </div>
-                        <Switch
-                          checked={allowCommenting}
-                          onChange={setAllowCommenting}
-                          className={classNames(
-                            allowCommenting ? 'bg-teal-500' : 'bg-gray-200',
-                            'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2'
-                          )}
-                        >
-                          <span
-                            aria-hidden="true"
-                            className={classNames(
-                              allowCommenting ? 'translate-x-5' : 'translate-x-0',
-                              'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
-                            )}
-                          />
-                        </Switch>
-                      </Switch.Group>
-                      <Switch.Group as="li" className="flex items-center justify-between py-4">
-                        <div className="flex flex-col">
-                          <Switch.Label as="p" className="text-sm font-medium leading-6 text-gray-900" passive>
-                            Allow mentions
-                          </Switch.Label>
-                          <Switch.Description className="text-sm text-gray-500">
-                            Adipiscing est venenatis enim molestie commodo eu gravid
-                          </Switch.Description>
-                        </div>
-                        <Switch
-                          checked={allowMentions}
-                          onChange={setAllowMentions}
-                          className={classNames(
-                            allowMentions ? 'bg-teal-500' : 'bg-gray-200',
-                            'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2'
-                          )}
-                        >
-                          <span
-                            aria-hidden="true"
-                            className={classNames(
-                              allowMentions ? 'translate-x-5' : 'translate-x-0',
-                              'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
-                            )}
-                          />
-                        </Switch>
-                      </Switch.Group>
-                    </ul>
-                  </div>
-                  <div className="mt-4 flex justify-end gap-x-3 px-4 py-4 sm:px-6">
-                    <button
-                      type="button"
-                      className="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="inline-flex justify-center rounded-md bg-sky-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700"
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div> */}
               </form>
             </div>
           </div>
         </div>
       </main>
+
+      {/* Slide-in panel Experience */}
+      <SlideDialog isOpen={isOpen} handleTogglePanel={handleTogglePanel} />
     </div>
   )
 }
