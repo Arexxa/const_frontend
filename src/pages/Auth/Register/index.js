@@ -6,7 +6,8 @@ import RegisterForm2 from '../../../components/RegisterForm2'
 import RegisterForm3 from '../../../components/RegisterForm3'
 
 function Register() {
-    const { user, error, register } = useRegister()
+    const { user, error, register, registerUserWorkExperienceEducation } =
+        useRegister()
     const [name, setName] = useState('')
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
@@ -16,43 +17,154 @@ function Register() {
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
     const [country, setCountry] = useState('')
-    const [phone, setPhone] = useState('')
-    const [aboutme, setAboutme] = useState('')
-    const [university, setUniversity] = useState('')
-    const [course, setCourse] = useState('')
-    const [altEducation, setAltEducation] = useState('')
+    const [contactNo, setContactNo] = useState('')
+    const [profileDescription, setProfileDescription] = useState('')
     const [workingExperiences, setWorkingExperiences] = useState([
         {
-            companyName: '',
-            jobTitle: '',
+            company: '',
+            position: '',
             startDate: '',
             endDate: '',
-            current: false,
-            description: '',
+            // current: false,
+            // description: '',
         },
     ])
+    const [education, setEducation] = useState({
+        university: '',
+        course: '',
+        // startDate: '',
+        // endDate: '',
+    })
+    const [application, setApplication] = useState({
+        // document type is whether it is cover letter or resume
+        documentType: '',
+        fileName: '',
+        fileData: '',
+        uploadDate: '',
+    })
+    const [savedWorkingExperiences, setSavedWorkingExperiences] = useState([])
+    const [savedEducation, setSavedEducation] = useState({})
     const [portfolio, setPortfolio] = useState('')
     const [website, setWebsite] = useState('')
-    const [coverLetter, setCoverLetter] = useState('')
-    const [resume, setResume] = useState('')
+    const [coverLetter, setCoverLetter] = useState(null)
+    const [resume, setResume] = useState(null)
     const [step, setStep] = useState(1)
     const navigate = useNavigate()
 
+    useEffect(() => {
+        console.log('Saved working experiences:', savedWorkingExperiences)
+        console.log('Saved education:', savedEducation)
+    }, [savedWorkingExperiences, savedEducation])
+
     const handleRegister = async (e) => {
-        e?.preventDefault()
+        if (e && typeof e.preventDefault === 'function') {
+            e.preventDefault()
+        }
         switch (step) {
             case 1:
-                //all information in form 1
-
-                setStep(step + 1)
+                if (name && email && password && confirmPassword) {
+                    try {
+                        await register(name, email, password)
+                        console.log(
+                            'Registration successful. Moving to step 2.'
+                        )
+                        setStep(step + 1)
+                    } catch (error) {
+                        console.error('Registration failed:', error)
+                    }
+                } else {
+                    console.log(
+                        'Please fill in all required fields for step 1.'
+                    )
+                }
                 break
             case 2:
-                //all information in form 2
-                setStep(step + 1)
+                if (
+                    address &&
+                    city &&
+                    state &&
+                    country &&
+                    contactNo &&
+                    profileDescription
+                ) {
+                    try {
+                        // Prepare the array of work experiences to pass to the registration function
+                        const workExperiencesData = workingExperiences.map(
+                            (exp) => ({
+                                company: exp.company,
+                                position: exp.position,
+                                startDate: exp.startDate,
+                                endDate: exp.endDate,
+                                // current: exp.current,
+                                // description: exp.description,
+                            })
+                        )
+                        setSavedWorkingExperiences(workExperiencesData)
+                        console.log(savedWorkingExperiences)
+                        setSavedEducation(education)
+                        console.log(savedEducation)
+                        console.log('Moving to step 3.')
+                        setStep(step + 1)
+                    } catch (error) {
+                        console.error('Registration failed:', error)
+                    }
+                } else {
+                    console.log(
+                        'Please fill in all required fields for step 2.'
+                    )
+                }
                 break
             case 3:
-                //all information in form 3
-                await register(name, email, password)
+                console.log('Entering step 3.')
+                console.log('Portfolio:', portfolio)
+                console.log('Website:', website)
+                console.log('Cover Letter:', coverLetter)
+                console.log('Resume:', resume)
+                try {
+                    console.log('Inside try block.')
+                    // Make sure all required fields are filled
+                    if (portfolio && website && coverLetter && resume) {
+                        const applicationData = {
+                            coverLetter: {
+                                documentType: 'coverLetter',
+                                fileName: coverLetter.name,
+                                fileData: coverLetter.url,
+                                uploadDate: new Date().toISOString(),
+                            },
+                            resume: {
+                                documentType: 'resume',
+                                fileName: resume.name,
+                                fileData: resume.url,
+                                uploadDate: new Date().toISOString(),
+                            },
+                        }
+                        // Call the registration function with saved data from previous steps
+                        await registerUserWorkExperienceEducation(
+                            // name,
+                            // email,
+                            // password,
+                            address,
+                            contactNo,
+                            city,
+                            state,
+                            country,
+                            profileDescription,
+                            savedWorkingExperiences, // Use the saved working experiences data
+                            savedEducation, // Use the saved education data
+                            applicationData
+                        )
+                        console.log(
+                            'Registration successful. Redirecting to profile page.'
+                        )
+                        // navigate('/profile')
+                    } else {
+                        console.log(
+                            'Please fill in all required fields for step 3.'
+                        )
+                    }
+                } catch (error) {
+                    console.error('Registration failed:', error)
+                }
                 break
             default:
                 break
@@ -63,8 +175,8 @@ function Register() {
         setWorkingExperiences([
             ...workingExperiences,
             {
-                companyName: '',
-                jobTitle: '',
+                company: '',
+                position: '',
                 startDate: '',
                 endDate: '',
                 current: false,
@@ -81,7 +193,7 @@ function Register() {
 
     const handleFileUpload = (event, type) => {
         const file = event.target.files[0]
-        const fileName = file.name // Access the file name
+        const fileName = file.name
 
         const reader = new FileReader()
 
@@ -106,15 +218,26 @@ function Register() {
         }
     }
 
+    const handleEducationInputChange = (e) => {
+        const { name, value } = e.target
+        setEducation((prevEducation) => ({
+            ...prevEducation,
+            [name]: value,
+        }))
+    }
+
     const handleSkip = () => {
         navigate('/')
     }
 
     useEffect(() => {
-        if (user === 'Success') {
-            navigate('/home')
+        if (user === 'Success' && step === 1) {
+            setStep(step + 1) // Move to step 2 after successful registration
+            console.log(step)
+        } else if (user === 'Success' && step === 3) {
+            console.log('success register form') // Redirect to profile page after completing all steps
         }
-    }, [user, navigate])
+    }, [user, step, navigate])
 
     return (
         <section className="bg-white dark:bg-gray-900 flex justify-center min-h-screen">
@@ -259,20 +382,17 @@ function Register() {
                             setCountry={setCountry}
                             email={email}
                             setEmail={setEmail}
-                            phone={phone}
-                            setPhone={setPhone}
-                            aboutme={aboutme}
-                            setAboutme={setAboutme}
+                            contactNo={contactNo}
+                            setContactNo={setContactNo}
+                            profileDescription={profileDescription}
+                            setProfileDescription={setProfileDescription}
                             workingExperiences={workingExperiences}
                             onClick={handleAddExperience}
                             onSubmit={handleRegister}
                             onChange={handleInputChange}
-                            university={university}
-                            setUniversity={setUniversity}
-                            course={course}
-                            setCourse={setCourse}
-                            altEducation={altEducation}
-                            setAltEducation={setAltEducation}
+                            education={education}
+                            setEducation={setEducation}
+                            onInputChange={handleEducationInputChange}
                         />
                     )}
                     {step === 3 && (

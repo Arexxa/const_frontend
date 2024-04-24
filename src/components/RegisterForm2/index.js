@@ -15,24 +15,21 @@ function RegisterForm2({
     setCountry,
     email,
     setEmail,
-    phone,
-    setPhone,
-    aboutme,
-    setAboutme,
+    contactNo,
+    setContactNo,
+    profileDescription,
+    setProfileDescription,
     workingExperiences,
     onClick,
     onSubmit,
     onChange,
-    university,
-    setUniversity,
-    course,
-    setCourse,
-    altEducation,
-    setAltEducation,
+    education,
+    setEducation,
+    onInputChange,
 }) {
     const handleSubmit = (e) => {
         e?.preventDefault()
-        onSubmit()
+        onSubmit(e)
     }
 
     return (
@@ -191,20 +188,20 @@ function RegisterForm2({
 
                     <div>
                         <label
-                            htmlFor="phone"
+                            htmlFor="contactNo"
                             className="abel text-left block mb-2 text-sm text-gray-600 dark:text-gray-200"
                         >
                             Phone Number
                         </label>
                         <input
                             type="text"
-                            name="phone"
-                            id="phone"
+                            name="contactNo"
+                            id="contactNo"
                             autoComplete="off"
                             className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                             required=""
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            value={contactNo}
+                            onChange={(e) => setContactNo(e.target.value)}
                         />
                     </div>
                 </div>
@@ -218,20 +215,22 @@ function RegisterForm2({
                 <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-1">
                     <div>
                         <label
-                            htmlFor="aboutme"
+                            htmlFor="profileDescription"
                             className="abel text-left block mb-2 text-sm text-gray-600 dark:text-gray-200"
                         >
                             About Me
                         </label>
                         <textarea
                             type="text"
-                            name="aboutme"
-                            id="aboutme"
+                            name="profileDescription"
+                            id="profileDescription"
                             autoComplete="off"
                             className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                             required=""
-                            value={aboutme}
-                            onChange={(e) => setAboutme(e.target.value)}
+                            value={profileDescription}
+                            onChange={(e) =>
+                                setProfileDescription(e.target.value)
+                            }
                         ></textarea>
                     </div>
                 </div>
@@ -247,23 +246,23 @@ function RegisterForm2({
                             <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
                                 <div>
                                     <label
-                                        htmlFor={`companyName-${index}`}
+                                        htmlFor={`company-${index}`}
                                         className="abel text-left block mb-2 text-sm text-gray-600 dark:text-gray-200"
                                     >
                                         Company Name
                                     </label>
                                     <input
                                         type="text"
-                                        name={`companyName-${index}`}
-                                        id={`companyName-${index}`}
+                                        name={`company-${index}`}
+                                        id={`company-${index}`}
                                         autoComplete="off"
                                         className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                                         required=""
-                                        value={experience.companyName}
+                                        value={experience.company}
                                         onChange={(e) =>
                                             onChange(
                                                 index,
-                                                'companyName',
+                                                'company',
                                                 e.target.value
                                             )
                                         }
@@ -272,23 +271,23 @@ function RegisterForm2({
 
                                 <div>
                                     <label
-                                        htmlFor={`jobTitle-${index}`}
+                                        htmlFor={`position-${index}`}
                                         className="abel text-left block mb-2 text-sm text-gray-600 dark:text-gray-200"
                                     >
                                         Job Title
                                     </label>
                                     <input
                                         type="text"
-                                        name={`jobTitle-${index}`}
-                                        id={`jobTitle-${index}`}
+                                        name={`position-${index}`}
+                                        id={`position-${index}`}
                                         autoComplete="off"
                                         className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                                         required=""
-                                        value={experience.jobTitle}
+                                        value={experience.position}
                                         onChange={(e) =>
                                             onChange(
                                                 index,
-                                                'jobTitle',
+                                                'position',
                                                 e.target.value
                                             )
                                         }
@@ -431,8 +430,8 @@ function RegisterForm2({
                             autoComplete="off"
                             className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                             required=""
-                            value={university}
-                            onChange={(e) => setUniversity(e.target.value)}
+                            value={education.university}
+                            onChange={onInputChange}
                         />
                     </div>
 
@@ -450,12 +449,12 @@ function RegisterForm2({
                             autoComplete="off"
                             className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                             required=""
-                            value={course}
-                            onChange={(e) => setCourse(e.target.value)}
+                            value={education.course}
+                            onChange={onInputChange}
                         />
                     </div>
                 </div>
-                <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-1">
+                {/* <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-1">
                     <div>
                         <label
                             htmlFor="course"
@@ -465,16 +464,16 @@ function RegisterForm2({
                         </label>
                         <input
                             type="text"
-                            name="altEducation"
-                            id="altEducation"
+                            name="education"
+                            id="education"
                             autoComplete="off"
                             className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                             required=""
-                            value={altEducation}
-                            onChange={(e) => setAltEducation(e.target.value)}
+                            value={education}
+                            onChange={(e) => setEducation(e.target.value)}
                         />
                     </div>
-                </div>
+                </div> */}
 
                 <button
                     type="submit"

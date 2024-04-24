@@ -14,7 +14,7 @@ function RegisterForm1({
 }) {
     const handleSubmit = (e) => {
         e?.preventDefault()
-        onSubmit()
+        onSubmit(e)
     }
 
     return (

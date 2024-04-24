@@ -27,8 +27,58 @@ export const RegisterProvider = ({ children }) => {
         }
     }
 
+    const registerUserWorkExperienceEducation = async (
+        // name,
+        // email,
+        // password,
+        address,
+        contactNo,
+        city,
+        state,
+        country,
+        profileDescription,
+        workExperience,
+        education,
+        application
+    ) => {
+        try {
+            const response = await baseUrl.post('/register', {
+                // name,
+                // email,
+                // password,
+                address,
+                contactNo,
+                city,
+                state,
+                country,
+                profileDescription,
+                workExperience,
+                education,
+                application,
+            })
+            console.log(
+                'Register with work experience and education successful',
+                response
+            )
+            setUser('Success')
+        } catch (error) {
+            console.error(
+                'Register with work experience and education failed!',
+                error
+            )
+            setError('Failed')
+        }
+    }
+
     return (
-        <RegisterContext.Provider value={{ user, error, register }}>
+        <RegisterContext.Provider
+            value={{
+                user,
+                error,
+                register,
+                registerUserWorkExperienceEducation,
+            }}
+        >
             {children}
         </RegisterContext.Provider>
     )

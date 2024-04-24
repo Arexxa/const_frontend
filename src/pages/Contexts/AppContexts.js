@@ -5,7 +5,7 @@ import { UserManagementProvider } from '../admin/usermanagement/contexts/UserMan
 
 const AppContextProviders = ({ children }) => {
     return (
-<LoginProvider>
+        <LoginProvider>
             <RegisterProvider>
                 <UserManagementProvider>{children}</UserManagementProvider>
             </RegisterProvider>

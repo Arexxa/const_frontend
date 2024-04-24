@@ -14,8 +14,10 @@ function RegisterForm3({
     onSubmit,
 }) {
     const handleSubmit = (e) => {
-        e?.preventDefault()
-        onSubmit()
+        if (e && typeof e.preventDefault === 'function') {
+            e.preventDefault()
+        }
+        onSubmit(e)
     }
 
     const handleDeleteResume = () => {
@@ -188,7 +190,7 @@ function RegisterForm3({
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
-                    {coverLetter && (
+                    {coverLetter && typeof coverLetter === 'object' && (
                         <div>
                             <label
                                 htmlFor="coverLetter"
@@ -218,7 +220,7 @@ function RegisterForm3({
                             </div>
                         </div>
                     )}
-                    {resume && (
+                    {resume && typeof resume === 'object' && (
                         <div>
                             <label
                                 htmlFor="coverLetter"
@@ -237,25 +239,12 @@ function RegisterForm3({
                                     strokeWidth={1.5}
                                     stroke="currentColor"
                                     className="w-6 h-6 text-[#C1C0C0] hover:text-gray-400 mt-1 cursor-pointer"
-                                    onClick={() => onclick('resume')}
+                                    onClick={handleDeleteResume}
                                 >
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         d="M6 18 18 6M6 6l12 12"
-                                    />
-                                </svg>
-                                <svg
-                                    width="41"
-                                    height="39"
-                                    viewBox="0 0 41 39"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    onClick={handleDeleteResume}
-                                >
-                                    <path
-                                        d="M23.0625 10.3594V0H7.04688C5.98184 0 5.125 0.815039 5.125 1.82812V37.1719C5.125 38.185 5.98184 39 7.04688 39H33.9531C35.0182 39 35.875 38.185 35.875 37.1719V12.1875H24.9844C23.9273 12.1875 23.0625 11.3648 23.0625 10.3594ZM28.282 26.8133H23.0625V32.907C23.0625 33.5804 22.4891 34.1258 21.7812 34.1258H19.2188C18.5109 34.1258 17.9375 33.5804 17.9375 32.907V26.8133H12.718C11.5745 26.8133 11.0035 25.4963 11.8155 24.7292L19.5367 17.4396C20.0692 16.9361 20.9292 16.9361 21.4617 17.4396L29.1829 24.7292C29.9957 25.4963 29.4255 26.8133 28.282 26.8133ZM35.3145 7.99805L27.4748 0.533203C27.1145 0.19043 26.626 0 26.1135 0H25.625V9.75H35.875V9.28535C35.875 8.80547 35.6748 8.34082 35.3145 7.99805Z"
-                                        fill="#838383"
                                     />
                                 </svg>
                             </div>
