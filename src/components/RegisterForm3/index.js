@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 
 function RegisterForm3({
     portfolio,
@@ -13,6 +13,9 @@ function RegisterForm3({
     onClick,
     onSubmit,
 }) {
+    const coverLetterInputRef = useRef(null)
+    const resumeInputRef = useRef(null)
+
     const handleSubmit = (e) => {
         if (e && typeof e.preventDefault === 'function') {
             e.preventDefault()
@@ -22,10 +25,12 @@ function RegisterForm3({
 
     const handleDeleteResume = () => {
         onClick('resume') // Call the onClick function with the appropriate type ('resume')
+        resumeInputRef.current.value = ''
     }
 
     const handleDeleteCoverLetter = () => {
         onClick('coverLetter') // Call the onClick function with the appropriate type ('coverLetter')
+        coverLetterInputRef.current.value = ''
     }
 
     return (
@@ -120,6 +125,7 @@ function RegisterForm3({
                                             type="file"
                                             className="sr-only"
                                             required=""
+                                            ref={coverLetterInputRef}
                                             onChange={(e) =>
                                                 onChange(e, 'coverLetter')
                                             }
@@ -172,6 +178,7 @@ function RegisterForm3({
                                             type="file"
                                             className="sr-only"
                                             required=""
+                                            ref={resumeInputRef}
                                             onChange={(e) =>
                                                 onChange(e, 'resume')
                                             }

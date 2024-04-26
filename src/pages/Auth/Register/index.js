@@ -6,8 +6,16 @@ import RegisterForm2 from '../../../components/RegisterForm2'
 import RegisterForm3 from '../../../components/RegisterForm3'
 
 function Register() {
-    const { user, error, register, registerUserWorkExperienceEducation } =
-        useRegister()
+    const {
+        user,
+        error,
+        register,
+        updateRegisterUser,
+        registerWorkExperience,
+        registerEducation,
+        registerApplication,
+    } = useRegister()
+
     const [name, setName] = useState('')
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
@@ -25,23 +33,22 @@ function Register() {
             position: '',
             startDate: '',
             endDate: '',
-            // current: false,
-            // description: '',
+            currentEmployer: false,
+            description: '',
         },
     ])
     const [education, setEducation] = useState({
         university: '',
         course: '',
-        // startDate: '',
-        // endDate: '',
+        startDate: '',
+        endDate: '',
     })
-    const [application, setApplication] = useState({
-        // document type is whether it is cover letter or resume
-        documentType: '',
-        fileName: '',
-        fileData: '',
-        uploadDate: '',
-    })
+    // const [application, setApplication] = useState({
+    //     documentType: '',
+    //     fileName: '',
+    //     fileData: '',
+    //     uploadDate: '',
+    // })
     const [savedWorkingExperiences, setSavedWorkingExperiences] = useState([])
     const [savedEducation, setSavedEducation] = useState({})
     const [portfolio, setPortfolio] = useState('')
@@ -50,6 +57,7 @@ function Register() {
     const [resume, setResume] = useState(null)
     const [step, setStep] = useState(1)
     const navigate = useNavigate()
+    const userId = localStorage.getItem('userid')
 
     useEffect(() => {
         console.log('Saved working experiences:', savedWorkingExperiences)
@@ -62,108 +70,113 @@ function Register() {
         }
         switch (step) {
             case 1:
-                if (name && email && password && confirmPassword) {
-                    try {
-                        await register(name, email, password)
-                        console.log(
-                            'Registration successful. Moving to step 2.'
-                        )
-                        setStep(step + 1)
-                    } catch (error) {
-                        console.error('Registration failed:', error)
-                    }
-                } else {
-                    console.log(
-                        'Please fill in all required fields for step 1.'
-                    )
+                try {
+                    await register(name, email, password)
+                    console.log('Registration successful. Moving to step 2.')
+                    setStep(step + 1)
+                } catch (error) {
+                    console.error('Registration failed:', error)
                 }
                 break
             case 2:
-                if (
-                    address &&
-                    city &&
-                    state &&
-                    country &&
-                    contactNo &&
-                    profileDescription
-                ) {
-                    try {
-                        // Prepare the array of work experiences to pass to the registration function
-                        const workExperiencesData = workingExperiences.map(
-                            (exp) => ({
-                                company: exp.company,
-                                position: exp.position,
-                                startDate: exp.startDate,
-                                endDate: exp.endDate,
-                                // current: exp.current,
-                                // description: exp.description,
-                            })
-                        )
-                        setSavedWorkingExperiences(workExperiencesData)
-                        console.log(savedWorkingExperiences)
-                        setSavedEducation(education)
-                        console.log(savedEducation)
-                        console.log('Moving to step 3.')
-                        setStep(step + 1)
-                    } catch (error) {
-                        console.error('Registration failed:', error)
-                    }
-                } else {
-                    console.log(
-                        'Please fill in all required fields for step 2.'
+                try {
+                    // Update user profile
+                    await updateRegisterUser(
+                        userId,
+                        contactNo,
+                        address,
+                        city,
+                        state,
+                        country,
+                        profileDescription,
+                        portfolio,
+                        website
                     )
+                    console.log('User profile updated successfully.')
+
+                    // Prepare work experiences data
+                    const workExperiencesData = workingExperiences.map(
+                        (exp) => ({
+                            position: exp.position,
+                            company: exp.company,
+                            currentEmployer: exp.currentEmployer, // Convert to boolean
+                            description: exp.description,
+                            startDate: exp.startDate,
+                            endDate: exp.endDate,
+                        })
+                    )
+
+                    // Register work experiences using updated structure
+                    await registerWorkExperience(userId, workExperiencesData)
+                    console.log('Work experiences registered successfully.')
+
+                    //Register Education
+                    const currentDate = new Date()
+                    const isoDateString = currentDate.toISOString()
+                    const startDate = isoDateString.split('T')[0]
+                    const endDate = isoDateString.split('T')[0]
+
+                    await registerEducation(
+                        userId,
+                        education.university,
+                        education.course,
+                        startDate,
+                        endDate
+                    )
+                    console.log('Education registered successfully.')
+
+                    // Move to the next step
+                    setStep(step + 1)
+                } catch (error) {
+                    console.error('Registration failed:', error)
                 }
+
                 break
             case 3:
                 console.log('Entering step 3.')
-                console.log('Portfolio:', portfolio)
-                console.log('Website:', website)
-                console.log('Cover Letter:', coverLetter)
-                console.log('Resume:', resume)
                 try {
-                    console.log('Inside try block.')
-                    // Make sure all required fields are filled
-                    if (portfolio && website && coverLetter && resume) {
-                        const applicationData = {
-                            coverLetter: {
-                                documentType: 'coverLetter',
-                                fileName: coverLetter.name,
-                                fileData: coverLetter.url,
-                                uploadDate: new Date().toISOString(),
-                            },
-                            resume: {
-                                documentType: 'resume',
-                                fileName: resume.name,
-                                fileData: resume.url,
-                                uploadDate: new Date().toISOString(),
-                            },
-                        }
-                        // Call the registration function with saved data from previous steps
-                        await registerUserWorkExperienceEducation(
-                            // name,
-                            // email,
-                            // password,
-                            address,
-                            contactNo,
-                            city,
-                            state,
-                            country,
-                            profileDescription,
-                            savedWorkingExperiences, // Use the saved working experiences data
-                            savedEducation, // Use the saved education data
-                            applicationData
-                        )
-                        console.log(
-                            'Registration successful. Redirecting to profile page.'
-                        )
-                        // navigate('/profile')
-                    } else {
-                        console.log(
-                            'Please fill in all required fields for step 3.'
-                        )
+                    await updateRegisterUser(
+                        userId,
+                        contactNo,
+                        address,
+                        city,
+                        state,
+                        country,
+                        profileDescription,
+                        portfolio,
+                        website
+                    )
+                    console.log('User updated with portfolio and website.')
+
+                    // Prepare application data
+                    const applicationsData = []
+                    if (coverLetter) {
+                        applicationsData.push({
+                            documentType: 'Cover Letter',
+                            fileName: coverLetter.name,
+                            fileData: coverLetter.url, // Assuming this is the base64 encoded data or file URL
+                            uploadDate: new Date().toISOString(),
+                        })
                     }
+                    if (resume) {
+                        applicationsData.push({
+                            documentType: 'Resume',
+                            fileName: resume.name,
+                            fileData: resume.url, // Assuming this is the base64 encoded data or file URL
+                            uploadDate: new Date().toISOString(),
+                        })
+                    }
+                    console.log('application-data', applicationsData)
+
+                    // Register applications using updated structure
+                    await registerApplication(userId, applicationsData)
+                    console.log('Applications registered successfully.')
+                    // navigate('/profile')
                 } catch (error) {
-                    console.error('Registration failed:', error)
+                    console.error(
+                        'update portfolio and website failed!:',
+                        error
+                    )
                 }
                 break
             default:
@@ -172,22 +185,24 @@ function Register() {
     }
 
     const handleAddExperience = () => {
-        setWorkingExperiences([
-            ...workingExperiences,
-            {
-                company: '',
-                position: '',
-                startDate: '',
-                endDate: '',
-                current: false,
-                description: '',
-            },
-        ])
+        const newExperience = {
+            company: '',
+            position: '',
+            startDate: '',
+            endDate: '',
+            currentEmployer: false,
+            description: '',
+        }
+
+        // Update the state to include the new experience
+        setWorkingExperiences([...workingExperiences, newExperience])
     }
 
     const handleInputChange = (index, field, value) => {
+        const newValue =
+            field === 'currentEmployer' ? (value ? true : false) : value
         const newExperiences = [...workingExperiences]
-        newExperiences[index][field] = value
+        newExperiences[index][field] = newValue
         setWorkingExperiences(newExperiences)
     }
 
@@ -209,12 +224,11 @@ function Register() {
         reader.readAsDataURL(file)
     }
 
-    // Function to handle file deletion
     const handleFileDelete = (type) => {
         if (type === 'coverLetter') {
-            setCoverLetter('')
+            setCoverLetter(null)
         } else if (type === 'resume') {
-            setResume('')
+            setResume(null)
         }
     }
 
@@ -235,7 +249,7 @@ function Register() {
             setStep(step + 1) // Move to step 2 after successful registration
             console.log(step)
         } else if (user === 'Success' && step === 3) {
-            console.log('success register form') // Redirect to profile page after completing all steps
+            console.log('success register form')
         }
     }, [user, step, navigate])
 

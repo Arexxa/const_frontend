@@ -32,6 +32,10 @@ function RegisterForm2({
         onSubmit(e)
     }
 
+    const handleExperienceInputChange = (index, field, value) => {
+        onChange(index, field, value)
+    }
+
     return (
         <>
             <h1 className="abel text-left text-2xl font-semibold tracking-wider text-gray-800 capitalize dark:text-white">
@@ -260,7 +264,7 @@ function RegisterForm2({
                                         required=""
                                         value={experience.company}
                                         onChange={(e) =>
-                                            onChange(
+                                            handleExperienceInputChange(
                                                 index,
                                                 'company',
                                                 e.target.value
@@ -285,7 +289,7 @@ function RegisterForm2({
                                         required=""
                                         value={experience.position}
                                         onChange={(e) =>
-                                            onChange(
+                                            handleExperienceInputChange(
                                                 index,
                                                 'position',
                                                 e.target.value
@@ -311,7 +315,7 @@ function RegisterForm2({
                                         required=""
                                         value={experience.startDate}
                                         onChange={(e) =>
-                                            onChange(
+                                            handleExperienceInputChange(
                                                 index,
                                                 'startDate',
                                                 e.target.value
@@ -336,7 +340,7 @@ function RegisterForm2({
                                         required=""
                                         value={experience.endDate}
                                         onChange={(e) =>
-                                            onChange(
+                                            handleExperienceInputChange(
                                                 index,
                                                 'endDate',
                                                 e.target.value
@@ -346,24 +350,24 @@ function RegisterForm2({
                                 </div>
                                 <div className="flex items-center gap-4 mt-6">
                                     <label
-                                        htmlFor={`current-${index}`}
+                                        htmlFor={`currentEmployer-${index}`}
                                         className="abel text-left block text-sm text-gray-600 dark:text-gray-200"
                                     >
                                         Current Employer
                                     </label>
                                     <input
                                         type="checkbox"
-                                        name={`current-${index}`}
-                                        id={`current-${index}`}
+                                        name={`currentEmployer-${index}`}
+                                        id={`currentEmployer-${index}`}
                                         autoComplete="off"
                                         className="block w-4 h-4 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                                         required=""
-                                        value={experience.current}
+                                        value={experience.currentEmployer}
                                         onChange={(e) =>
-                                            onChange(
+                                            handleExperienceInputChange(
                                                 index,
-                                                'current',
-                                                e.target.value
+                                                'currentEmployer',
+                                                e.target.checked
                                             )
                                         }
                                     />
