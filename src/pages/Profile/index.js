@@ -26,15 +26,16 @@ export default function Profile() {
   const { userProfile, fetchUserProfile, updateUserProfile } = useProfile();
   const [formData, setFormData] = useState({});
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isExperienceOpen, setIsExperienceOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const experiencePanel = () => {
-    setIsOpen(!isOpen);
+    setIsExperienceOpen(!isExperienceOpen);
   };
 
-  // const profilePanel = () => {
-  //   setIsOpen(!isOpen);
-  // };
+  const profilePanel = () => {
+    setIsProfileOpen(!isProfileOpen);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -170,16 +171,16 @@ export default function Profile() {
                       </div>
                     </div>
                     {/* Profile button edit */}
-                    {/* <div className="flex w-full items-end justify-end">
+                    <div className="flex w-full items-end justify-end">
                       <div className="px-4 py-5">
                         <div className="flex justify-between items-center">
-                          <button className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={profilePanel}>
+                          <button type='button' className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={profilePanel}>
                             <PencilIcon className="h-5 w-5 -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
                             <span>Edit</span>
                           </button>
                         </div>
                       </div>
-                    </div> */}
+                    </div>
                   </div>
 
                   <div>
@@ -212,7 +213,7 @@ export default function Profile() {
                         type="text"
                         name="portfolio"
                         id="portfolio"
-                        defaultValue="bensaid123@gmail.com"
+                        defaultValue={formData.portfolio || userProfile?.[0]?.portfolio || ''}
                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
                       />
                     </div>
@@ -239,7 +240,7 @@ export default function Profile() {
                         type="text"
                         name="website"
                         id="website"
-                        defaultValue="www.ben-portfolio.com"
+                        defaultValue={formData.website || userProfile?.[0]?.website || ''}
                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
                       />
                     </div>
@@ -251,11 +252,13 @@ export default function Profile() {
                       {/* Edit button */}
                       <div className="flex justify-between items-center">
                         <h3 className="text-xl font-semibold leading-6 text-gray-900">Experience</h3>
-                        <button className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={experiencePanel}>
+                        <button type="button" className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={experiencePanel}>
                             <PencilIcon className="h-5 w-5 -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
                             <span>Edit</span>
                         </button>
                       </div>
+
+                      {/* todo- looping for displaying work experience detail */}
                       <div className="mt-2 text-base text-gray-500 flex space-x-4">
                         <div className="border border-gray-200 sm:rounded-lg sm:p-4 flex-1 flex items-center">
                           <div className="w-full">
@@ -309,7 +312,7 @@ export default function Profile() {
                     </div>
                   </div>
 
-                  {/* Education*/}
+                  {/* todo- looping for displaying education detail */}
                   <div className="mt-6 bg-white border border-gray-200 sm:rounded-lg">
                     <div className="px-4 py-5 sm:p-6">
                       <div className="flex justify-between items-center">
@@ -429,7 +432,8 @@ export default function Profile() {
       </main>
 
       {/* Slide-in panel Experience */}
-      <SlideDialog isOpen={isOpen} experiencePanel={experiencePanel} />
+      <SlideDialog isExperienceOpen={isExperienceOpen} experiencePanel={experiencePanel} />
+      <ProfileDialog isProfileOpen={isProfileOpen} profilePanel={profilePanel} />
     </div>
   )
 }

@@ -1,9 +1,9 @@
 import { Fragment } from 'react';
 import { Transition, Dialog } from '@headlessui/react';
 
-export default function ProfileDialog({ isOpen, profilePanel }) {
+export default function ProfileDialog({ isProfileOpen, profilePanel }) {
   return (
-    <Transition.Root show={isOpen} as={Fragment}>
+    <Transition.Root show={isProfileOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={profilePanel}>
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
         <div className="fixed inset-0 overflow-hidden">

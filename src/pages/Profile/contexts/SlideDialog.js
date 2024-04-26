@@ -1,9 +1,9 @@
 import { Fragment } from 'react';
 import { Transition, Dialog } from '@headlessui/react';
 
-export default function SlideDialog({ isOpen, experiencePanel }) {
+export default function SlideDialog({ isExperienceOpen, experiencePanel }) {
   return (
-    <Transition.Root show={isOpen} as={Fragment}>
+    <Transition.Root show={isExperienceOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={experiencePanel}>
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
         <div className="fixed inset-0 overflow-hidden">
