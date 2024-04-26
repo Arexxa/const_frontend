@@ -1,10 +1,10 @@
 import { Fragment } from 'react';
 import { Transition, Dialog } from '@headlessui/react';
 
-export default function SlideDialog({ isOpen, experiencePanel }) {
+export default function ProfileDialog({ isOpen, profilePanel }) {
   return (
     <Transition.Root show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={experiencePanel}>
+      <Dialog as="div" className="relative z-10" onClose={profilePanel}>
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
@@ -24,13 +24,13 @@ export default function SlideDialog({ isOpen, experiencePanel }) {
                       <div className="px-4 sm:px-6">
                         <div className="flex items-start justify-between">
                           <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                            Edit Experience
+                            Edit Profile
                           </Dialog.Title>
                           <div className="ml-3 flex h-7 items-center">
                             <button
                               type="button"
                               className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-transparent"
-                              onClick={experiencePanel}
+                              onClick={profilePanel}
                             >
                               <span className="absolute -inset-2.5" />
                               <span className="sr-only">Close panel</span>
@@ -47,7 +47,7 @@ export default function SlideDialog({ isOpen, experiencePanel }) {
                       <button
                         type="button"
                         className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-                        onClick={experiencePanel}
+                        onClick={profilePanel}
                       >
                         Cancel
                       </button>

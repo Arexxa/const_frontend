@@ -7,6 +7,7 @@ import {
 import { useLogin } from '../Auth/Login/contexts/LoginContext';
 import { useProfile } from './contexts/ProfileContexts';
 import SlideDialog from './contexts/SlideDialog';
+import ProfileDialog from './contexts/ProfileDialog';
 
 const user = {
   name: 'Ben Said',
@@ -26,22 +27,27 @@ export default function Profile() {
   const [formData, setFormData] = useState({});
 
   const [isOpen, setIsOpen] = useState(false);
-  const handleTogglePanel = () => {
+
+  const experiencePanel = () => {
     setIsOpen(!isOpen);
   };
+
+  // const profilePanel = () => {
+  //   setIsOpen(!isOpen);
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Fetch the current user profile data if available
       if (userProfile && userProfile[0]) {
-        // Merge the existing user profile data with the form data
+        const updatedProfile = { ...userProfile[0] };
+        Object.assign(updatedProfile, formData);
+        updatedProfile.workExperience = userProfile[0].workExperience;
+        updatedProfile.education = userProfile[0].education;
+        updatedProfile.applications = userProfile[0].applications;
         const updatedData = {
-          userId: userData.userId, // Assuming userData contains the userId
-          updatedProfile: {
-            ...userProfile[0], // Existing user profile data
-            ...formData // Updated form data
-          }
+          userId: userData.userId,
+          updatedProfile: updatedProfile
         };
         // Update user profile
         await updateUserProfile(updatedData);
@@ -49,21 +55,32 @@ export default function Profile() {
       } else {
         console.error('User profile data not available.');
       }
+    console.log('Updating user profile with data:', formData);
     } catch (error) {
       console.error('Error updating user profile:', error);
     }
   };
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     // Only update formData if the value is not an empty string
     if (value !== '') {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-        currentEmployer: 0
-      }));
+      // If the field is workExperience, education, or applications
+      if (['workExperience', 'education', 'applications'].includes(name)) {
+        // Get the existing data for the field
+        const existingData = userProfile && userProfile[0] && userProfile[0][name];
+        // Update the formData with the existing data only if formData is empty for this field
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [name]: prevFormData[name].length === 0 ? existingData || [] : prevFormData[name],
+        }));
+      } else {
+        // For other fields, update as usual
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          [name]: value,
+        }));
+      }
     }
   };
 
@@ -138,28 +155,37 @@ export default function Profile() {
                         </label>
                       </div>
                     </div>
-
-                    <div className="flex items-end">
+                    <div className="flex w-full items-end">
                       <div>
                         <label htmlFor="name" className="block text-xl font-medium leading-6 text-gray-900">
-                          Name
+                          {formData.name || (userProfile && userProfile[0]?.name) || ''}
                         </label>
-                        <input
-                          type="text"
-                          name="name"
-                          id="name"
-                          value={formData.name || (userProfile && userProfile[0]?.name) || ''}
-                          onChange={handleChange}
-                          className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
-                        />
+                        <p className="mt-2 text-base text-gray-900">
+                        {formData.workExperience && formData.workExperience.position
+                          ? formData.workExperience.position
+                          : (userProfile && userProfile[0]?.workExperience && userProfile[0].workExperience[0]?.position)
+                          ? userProfile[0].workExperience[0].position
+                          : ''}
+                        </p>
                       </div>
                     </div>
+                    {/* Profile button edit */}
+                    {/* <div className="flex w-full items-end justify-end">
+                      <div className="px-4 py-5">
+                        <div className="flex justify-between items-center">
+                          <button className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={profilePanel}>
+                            <PencilIcon className="h-5 w-5 -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+                            <span>Edit</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div> */}
                   </div>
 
                   <div>
                     <h2 className="text-lg font-medium leading-6 text-gray-900">About me</h2>
                     <p className="mt-1 text-sm text-gray-500">
-                    Lorem ipsum dolor sit amet consectetur. Id elit sit diam fringilla vulputate tellus. Vel risus amet malesuada cum velit tempor. Lorem ipsum dolor sit amet consectetur.
+                    {formData.profile_description || (userProfile && userProfile[0]?.profile_description) || ''}
                     </p>
                   </div>
 
@@ -222,11 +248,12 @@ export default function Profile() {
 
                   <div className="mt-6 bg-white border border-gray-200 sm:rounded-lg">
                     <div className="px-4 py-5 sm:p-6">
+                      {/* Edit button */}
                       <div className="flex justify-between items-center">
                         <h3 className="text-xl font-semibold leading-6 text-gray-900">Experience</h3>
-                        <button className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={handleTogglePanel}>
-                          <PencilIcon className="h-5 w-5 -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-                          <span>Edit</span>
+                        <button className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={experiencePanel}>
+                            <PencilIcon className="h-5 w-5 -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+                            <span>Edit</span>
                         </button>
                       </div>
                       <div className="mt-2 text-base text-gray-500 flex space-x-4">
@@ -402,7 +429,7 @@ export default function Profile() {
       </main>
 
       {/* Slide-in panel Experience */}
-      <SlideDialog isOpen={isOpen} handleTogglePanel={handleTogglePanel} />
+      <SlideDialog isOpen={isOpen} experiencePanel={experiencePanel} />
     </div>
   )
 }
