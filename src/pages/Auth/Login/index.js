@@ -11,9 +11,13 @@ function Login() {
     const navigate = useNavigate()
 
     const handleLogin = async (e) => {
-        e.preventDefault()
-        login(email, password)
+    e.preventDefault();
+    const loginResult = await login(email, password);
+    if (loginResult === 'Success') {
+        // Update user state or perform any necessary actions
+        navigate('/profile');
     }
+}
 
     const handleRegister = () => {
         navigate('/register')
@@ -21,7 +25,7 @@ function Login() {
 
     useEffect(() => {
         if (user === 'Success') {
-            navigate('/home')
+            navigate('/profile')
         }
     }, [user, navigate])
 
