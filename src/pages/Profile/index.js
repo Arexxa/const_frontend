@@ -91,6 +91,31 @@ export default function Profile() {
     }
   }, [userData, userProfile, fetchUserProfile]);
 
+  // Function to format date range
+  const formatDateRange = (startDateString, endDateString, currentEmployer) => {
+    const startDate = new Date(startDateString);
+
+    // If currentEmployer is 1, replace end date with "Present"
+    let endDate;
+    if (currentEmployer === 1) {
+      endDate = "Present";
+    } else {
+      endDate = new Date(endDateString);
+    }
+
+    // Options for formatting month and year
+    const options = { month: "long", year: "numeric" };
+
+    // Format start date
+    const formattedStartDate = startDate.toLocaleDateString("en-US", options);
+
+    // If endDate is not "Present", format it
+    const formattedEndDate = endDate === "Present" ? endDate : endDate.toLocaleDateString("en-US", options);
+
+    // Construct formatted date range
+    return `${formattedStartDate} - ${formattedEndDate}`;
+  };
+
   return (
     <div className="w-full h-screen flex flex-col justify-start ">
       <Sidebar />
@@ -191,58 +216,48 @@ export default function Profile() {
                   </div>
 
                   <div className="mt-6 grid grid-cols-12 gap-6">
-                    <div className="col-span-12 sm:col-span-6">
+                    <div className="flex space-x-6 items-center col-span-12 sm:col-span-6">
                       <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                        Email
+                        Email :
                       </label>
-                      <input
+                      <p className="text-sm text-gray-900">
+                        { formData.email || userProfile?.[0]?.email || ''}
+                      </p>
+                      {/* <input
                         type="text"
                         name="email"
                         id="email"
                         value={formData.email || userProfile?.[0]?.email || ''}
                         onChange={handleChange}
                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
-                      />
+                      /> */}
                     </div>
 
-                    <div className="col-span-12 sm:col-span-6">
+                    <div className="flex space-x-6 items-center col-span-12 sm:col-span-6">
                       <label htmlFor="portfolio" className="block text-sm font-medium leading-6 text-gray-900">
-                        Portfolio
+                        Portfolio :
                       </label>
-                      <input
-                        type="text"
-                        name="portfolio"
-                        id="portfolio"
-                        defaultValue={formData.portfolio || userProfile?.[0]?.portfolio || ''}
-                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
-                      />
+                      <p className="text-sm text-gray-900">
+                        {formData.portfolio || userProfile?.[0]?.portfolio || ''}
+                      </p>
                     </div>
 
-                    <div className="col-span-12 sm:col-span-6">
+                    <div className="flex space-x-6 items-center col-span-12 sm:col-span-6">
                       <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
-                        Location
+                        Location :
                       </label>
-                      <input
-                        type="text"
-                        name="city"
-                        id="city"
-                        defaultValue={formData.city || userProfile?.[0]?.city || ''}
-                        onChange={handleChange}
-                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
-                      />
+                      <p className="text-sm text-gray-900">
+                        {formData.city || userProfile?.[0]?.city || ''}
+                      </p>
                     </div>
 
-                    <div className="col-span-12 sm:col-span-6">
+                    <div className="flex space-x-6 items-center col-span-12 sm:col-span-6">
                       <label htmlFor="website" className="block text-sm font-medium leading-6 text-gray-900">
-                        Website
+                        Website :
                       </label>
-                      <input
-                        type="text"
-                        name="website"
-                        id="website"
-                        defaultValue={formData.website || userProfile?.[0]?.website || ''}
-                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
-                      />
+                      <p className="text-sm text-gray-900">
+                        {formData.website || userProfile?.[0]?.website || ''}
+                      </p>
                     </div>
                   </div>
                   <hr className='mt-6'/>
@@ -260,54 +275,19 @@ export default function Profile() {
 
                       {/* todo- looping for displaying work experience detail */}
                       <div className="mt-2 text-base text-gray-500 flex space-x-4">
-                        <div className="border border-gray-200 sm:rounded-lg sm:p-4 flex-1 flex items-center">
-                          <div className="w-full">
-                              <h3 className="text-base font-semibold leading-6 text-gray-900">Frontend Developer, UI/UX Designer</h3>
+                      {userProfile?.[0]?.workExperience.map((experience, index) => (
+                          <div key={index} className="border border-gray-200 sm:rounded-lg sm:p-4 flex-1 flex items-center">
+                            <div className="w-full">
+                              <h3 className="text-base font-semibold leading-6 text-gray-900">{experience.position}</h3>
                               <div className="max-w-xl text-sm font-normal text-gray-900">
-                                <p>
-                                  @ Coinbase
-                                </p>
+                                <p>{experience.company}</p>
                               </div>
                               <div className="max-w-xl text-sm font-normal text-gray-400">
-                                <p>
-                                  May 2020 - April 2023
-                                </p>
+                                <p>{formatDateRange(experience.startDate, experience.endDate, experience.currentEmployer)}</p>
                               </div>
+                            </div>
                           </div>
-                        </div>
-
-                        <div className="border border-gray-200 sm:rounded-lg sm:p-4 flex-1 flex items-center">
-                          <div className="w-full">
-                              <h3 className="text-base font-semibold leading-6 text-gray-900">Frontend Developer</h3>
-                              <div className="max-w-xl text-sm font-normal text-gray-900">
-                                <p>
-                                @ Coinbase
-                                </p>
-                              </div>
-                              <div className="max-w-xl text-sm font-normal text-gray-400">
-                                <p>
-                                  May 2020 - April 2023
-                                </p>
-                              </div>
-                          </div>
-                        </div>
-
-                        <div className="border border-gray-200 sm:rounded-lg sm:p-4 flex-1 flex items-center">
-                          <div className="w-full">
-                              <h3 className="text-base font-semibold leading-6 text-gray-900">UI/UX Designer</h3>
-                              <div className="max-w-xl text-sm font-normal text-gray-900">
-                                <p>
-                                @ Coinbase
-                                </p>
-                              </div>
-                              <div className="max-w-xl text-sm font-normal text-gray-400">
-                                <p>
-                                  May 2020 - April 2023
-                                </p>
-                              </div>
-                          </div>
-                        </div>
-
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -317,7 +297,7 @@ export default function Profile() {
                     <div className="px-4 py-5 sm:p-6">
                       <div className="flex justify-between items-center">
                         <h3 className="text-xl font-semibold leading-6 text-gray-900">Education</h3>
-                        <button className="flex items-center space-x-1 text-gray-400 hover:text-gray-300">
+                        <button type="button" className="flex items-center space-x-1 text-gray-400 hover:text-gray-300">
                           <PencilIcon className="h-5 w-5 -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
                           <span>Edit</span>
                         </button>
