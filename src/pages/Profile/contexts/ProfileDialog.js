@@ -106,7 +106,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                     <div className="flex min-h-0 flex-1 flex-col overflow-y-auto py-6">
                         <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         {/* Your content */}
-                            <form>
+                            <form onSubmit={handleSubmit}>
                                 <div className="pb-4">
                                     <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                                         Name
@@ -117,7 +117,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         id="name"
                                         value={formData.name || userProfile?.[0]?.name || ''}
                                         onChange={handleChange}
-                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
+                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
                                 <div className="pb-4">
@@ -130,7 +130,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         value={formData.profile_description || userProfile?.[0]?.profile_description || ''}
                                         onChange={handleChange}
                                         placeholder="lorem..."
-                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 h-40 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
+                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 h-40 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                         >
                                     </textarea>
                                 </div>
@@ -144,7 +144,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         id="email"
                                         value={formData.email || userProfile?.[0]?.email || ''}
                                         onChange={handleChange}
-                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
+                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
                                 <div className="pb-4">
@@ -157,7 +157,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         id="contact_no"
                                         value={formData.contact_no || userProfile?.[0]?.contact_no || ''}
                                         onChange={handleChange}
-                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
+                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
                                 <div className="pb-4">
@@ -170,7 +170,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         id="portfolio"
                                         value={formData.portfolio || userProfile?.[0]?.portfolio || ''}
                                         onChange={handleChange}
-                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
+                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
                                 <div className="pb-4">
@@ -183,7 +183,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         id="website"
                                         value={formData.website || userProfile?.[0]?.website || ''}
                                         onChange={handleChange}
-                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
+                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
                                 <div className="pb-4">
@@ -196,7 +196,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         value={formData.address || userProfile?.[0]?.address || ''}
                                         onChange={handleChange}
                                         placeholder="lorem..."
-                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 h-40 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
+                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 h-35 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                         >
                                     </textarea>
                                 </div>
@@ -210,7 +210,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         id="city"
                                         value={formData.city || userProfile?.[0]?.city || ''}
                                         onChange={handleChange}
-                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
+                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
                                 <div className="pb-4">
@@ -223,7 +223,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         id="state"
                                         value={formData.state || userProfile?.[0]?.state || ''}
                                         onChange={handleChange}
-                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
+                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
                                 <div className="pb-4">
@@ -236,7 +236,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         id="country"
                                         value={formData.country || userProfile?.[0]?.country || ''}
                                         onChange={handleChange}
-                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6"
+                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
                             </form>
@@ -251,8 +251,9 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                         Cancel
                       </button>
                       <button
-                        type="submit"
+                        type="button"
                         className="ml-4 inline-flex justify-center rounded-md bg-orange-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
+                        onClick={handleSubmit}
                       >
                         Save
                       </button>
