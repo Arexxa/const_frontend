@@ -10,6 +10,8 @@ export const useProfile = () => {
 export const ProfileProvider = ({ children }) => {
     const [userProfile, setUserProfile] = useState(null);
     const [error, setError] = useState(null);
+    const [roles, setRoles] = useState(null);
+    const [universities, setUniversities] = useState(null);
 
     const fetchUserProfile = async (userId) => {
         try {
@@ -34,8 +36,49 @@ export const ProfileProvider = ({ children }) => {
         }
     };
 
+    const getRoles = async (roleId, role_name) => {
+        try {
+            const response = await baseUrl.get('/list/roles', {
+                params: {
+                    roleId,
+                    role_name,
+                },
+            });
+            console.log('Roles fetched successfully:', response.data);
+            setRoles(response.data.result); // Assuming response.data contains the roles array
+        } catch (error) {
+            console.error('Failed to fetch roles:', error);
+            setError(error);
+        }
+    };
+
+    const getUniversity = async (name = '', country = 'malaysia') => {
+        try {
+            // Construct the API URL with the provided parameters
+            const apiUrl = `http://universities.hipolabs.com/search?name=${name}&country=${country}`;
+            
+            // Make the API call
+            const response = await fetch(apiUrl);
+            
+            // Check if the response is successful
+            if (!response.ok) {
+                throw new Error('Failed to fetch university data');
+            }
+        
+            // Parse the response JSON
+            const data = await response.json();
+            setUniversities(data);
+
+            console.log('University data fetched successfully:', data);
+            return data; // Return the fetched university data
+        } catch (error) {
+            console.error('Failed to fetch university data:', error);
+            throw error; // Rethrow the error to handle it at a higher level
+        }
+    };
+
     return (
-        <ProfileContext.Provider value={{ userProfile, error, fetchUserProfile, updateUserProfile }}>
+        <ProfileContext.Provider value={{ userProfile, error, fetchUserProfile, updateUserProfile, roles, getRoles, universities, getUniversity }}>
             {children}
         </ProfileContext.Provider>
     );

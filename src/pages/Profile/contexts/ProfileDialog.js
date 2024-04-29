@@ -4,8 +4,6 @@ import { Transition, Dialog } from '@headlessui/react';
 import { useLogin } from '../../Auth/Login/contexts/LoginContext';
 import { useProfile } from './ProfileContexts';
 
-
-
 export default function ProfileDialog({ isProfileOpen, profilePanel }) {
     const { userData } = useLogin();
     const { userProfile, fetchUserProfile, updateUserProfile } = useProfile();
@@ -37,7 +35,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
     };
     
     const handleChange = (e) => {
-    const { name, value } = e.target;
+        const { name, value } = e.target;
         // Only update formData if the value is not an empty string
         if (value !== '') {
             // If the field is workExperience, education, or applications
@@ -53,7 +51,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
             // For other fields, update as usual
             setFormData((prevFormData) => ({
                 ...prevFormData,
-                [name]: value,
+                [name]: value, // Always update the formData with the new value
             }));
             }
         }
@@ -107,7 +105,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                         <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         {/* Your content */}
                             <form onSubmit={handleSubmit}>
-                                <div className="pb-4">
+                                <div className="mb-4">
                                     <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                                         Name
                                     </label>
@@ -115,26 +113,26 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         type="text"
                                         name="name"
                                         id="name"
-                                        value={formData.name || userProfile?.[0]?.name || ''}
+                                        defaultValue={formData.name || userProfile?.[0]?.name || ''}
                                         onChange={handleChange}
                                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
-                                <div className="pb-4">
+                                <div className="mb-4">
                                     <label htmlFor="profile_description" className="block text-sm font-medium leading-6 text-gray-900">
                                         About Me
                                     </label>
                                     <textarea
                                         name="profile_description"
                                         id="profile_description"
-                                        value={formData.profile_description || userProfile?.[0]?.profile_description || ''}
+                                        defaultValue={formData.profile_description || userProfile?.[0]?.profile_description || ''}
                                         onChange={handleChange}
                                         placeholder="lorem..."
                                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 h-40 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                         >
                                     </textarea>
                                 </div>
-                                <div className="pb-4">
+                                <div className="mb-4">
                                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                         Email
                                     </label>
@@ -142,12 +140,12 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         type="text"
                                         name="email"
                                         id="email"
-                                        value={formData.email || userProfile?.[0]?.email || ''}
+                                        defaultValue={formData.email || userProfile?.[0]?.email || ''}
                                         onChange={handleChange}
                                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
-                                <div className="pb-4">
+                                <div className="mb-4">
                                     <label htmlFor="contact_no" className="block text-sm font-medium leading-6 text-gray-900">
                                         Phone number
                                     </label>
@@ -155,12 +153,12 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         type="text"
                                         name="contact_no"
                                         id="contact_no"
-                                        value={formData.contact_no || userProfile?.[0]?.contact_no || ''}
+                                        defaultValue={formData.contact_no || userProfile?.[0]?.contact_no || ''}
                                         onChange={handleChange}
                                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
-                                <div className="pb-4">
+                                <div className="mb-4">
                                     <label htmlFor="portfolio" className="block text-sm font-medium leading-6 text-gray-900">
                                         Portfolio
                                     </label>
@@ -168,12 +166,12 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         type="text"
                                         name="portfolio"
                                         id="portfolio"
-                                        value={formData.portfolio || userProfile?.[0]?.portfolio || ''}
+                                        defaultValue={formData.portfolio || userProfile?.[0]?.portfolio || ''}
                                         onChange={handleChange}
                                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
-                                <div className="pb-4">
+                                <div className="mb-4">
                                     <label htmlFor="website" className="block text-sm font-medium leading-6 text-gray-900">
                                         Website
                                     </label>
@@ -181,26 +179,26 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         type="text"
                                         name="website"
                                         id="website"
-                                        value={formData.website || userProfile?.[0]?.website || ''}
+                                        defaultValue={formData.website || userProfile?.[0]?.website || ''}
                                         onChange={handleChange}
                                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
-                                <div className="pb-4">
+                                <div className="mb-4">
                                     <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
                                         Address
                                     </label>
                                     <textarea
                                         name="address"
                                         id="address"
-                                        value={formData.address || userProfile?.[0]?.address || ''}
+                                        defaultValue={formData.address || userProfile?.[0]?.address || ''}
                                         onChange={handleChange}
                                         placeholder="lorem..."
                                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 h-35 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                         >
                                     </textarea>
                                 </div>
-                                <div className="pb-4">
+                                <div className="mb-4">
                                     <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
                                         City
                                     </label>
@@ -208,12 +206,12 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         type="text"
                                         name="city"
                                         id="city"
-                                        value={formData.city || userProfile?.[0]?.city || ''}
+                                        defaultValue={formData.city || userProfile?.[0]?.city || ''}
                                         onChange={handleChange}
                                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
-                                <div className="pb-4">
+                                <div className="mb-4">
                                     <label htmlFor="state" className="block text-sm font-medium leading-6 text-gray-900">
                                         State
                                     </label>
@@ -221,12 +219,12 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         type="text"
                                         name="state"
                                         id="state"
-                                        value={formData.state || userProfile?.[0]?.state || ''}
+                                        defaultValue={formData.state || userProfile?.[0]?.state || ''}
                                         onChange={handleChange}
                                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />
                                 </div>
-                                <div className="pb-4">
+                                <div className="mb-4">
                                     <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
                                         Country
                                     </label>
@@ -234,7 +232,7 @@ export default function ProfileDialog({ isProfileOpen, profilePanel }) {
                                         type="text"
                                         name="country"
                                         id="country"
-                                        value={formData.country || userProfile?.[0]?.country || ''}
+                                        defaultValue={formData.country || userProfile?.[0]?.country || ''}
                                         onChange={handleChange}
                                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                                     />

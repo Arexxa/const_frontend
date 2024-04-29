@@ -22,9 +22,9 @@ export default function Selectbox({ items, selectedItem, setSelectedItem, labelK
             leaveTo="opacity-0"
           >
             <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-            {items && items.map((item) => (
+            {items && items.map((item, index) => (
                 <Listbox.Option
-                    key={item.id}
+                    key={index}
                     className={({ active, selected }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-900'

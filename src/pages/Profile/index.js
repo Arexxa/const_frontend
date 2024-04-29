@@ -6,8 +6,10 @@ import {
 } from '@heroicons/react/outline'
 import { useLogin } from '../Auth/Login/contexts/LoginContext';
 import { useProfile } from './contexts/ProfileContexts';
+
 import SlideDialog from './contexts/SlideDialog';
 import ProfileDialog from './contexts/ProfileDialog';
+import EducationDialog from './contexts/EducationDialog';
 
 const user = {
   name: 'Ben Said',
@@ -28,6 +30,7 @@ export default function Profile() {
 
   const [isExperienceOpen, setIsExperienceOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isEducationOpen, setIsEducationOpen] = useState(false);
 
   const experiencePanel = () => {
     setIsExperienceOpen(!isExperienceOpen);
@@ -35,6 +38,10 @@ export default function Profile() {
 
   const profilePanel = () => {
     setIsProfileOpen(!isProfileOpen);
+  };
+
+  const educationPanel = () => {
+    setIsEducationOpen(!isEducationOpen);
   };
 
   const handleSubmit = async (e) => {
@@ -297,7 +304,7 @@ export default function Profile() {
                     <div className="px-4 py-5 sm:p-6">
                       <div className="flex justify-between items-center">
                         <h3 className="text-xl font-semibold leading-6 text-gray-900">Education</h3>
-                        <button type="button" className="flex items-center space-x-1 text-gray-400 hover:text-gray-300">
+                        <button type="button" className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={educationPanel}>
                           <PencilIcon className="h-5 w-5 -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
                           <span>Edit</span>
                         </button>
@@ -414,6 +421,7 @@ export default function Profile() {
       {/* Slide-in panel Experience */}
       <SlideDialog isExperienceOpen={isExperienceOpen} experiencePanel={experiencePanel} />
       <ProfileDialog isProfileOpen={isProfileOpen} profilePanel={profilePanel} />
+      <EducationDialog isEducationOpen={isEducationOpen} educationPanel={educationPanel} />
     </div>
   )
 }
