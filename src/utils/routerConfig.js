@@ -7,6 +7,7 @@ import NotFound from '../pages/Error/NotFound'
 import Profile from '../pages/Profile'
 import UserManagement from '../pages/admin/usermanagement'
 import Landing from '../pages/Landing'
+import Testing from '../pages/testing'
 
 const AppRoutes = () => {
     return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
             <Route exact path="/home" element={<Home />} />
             <Route exact path="/profile" element={<Profile />} />
             <Route exact path="/usermanagement" element={<UserManagement />} />
+            <Route exact path="/testing" element={<Testing />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     )
