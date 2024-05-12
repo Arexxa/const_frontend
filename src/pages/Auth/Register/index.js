@@ -43,12 +43,7 @@ function Register() {
         startDate: '',
         endDate: '',
     })
-    // const [application, setApplication] = useState({
-    //     documentType: '',
-    //     fileName: '',
-    //     fileData: '',
-    //     uploadDate: '',
-    // })
+
     const [savedWorkingExperiences, setSavedWorkingExperiences] = useState([])
     const [savedEducation, setSavedEducation] = useState({})
     const [portfolio, setPortfolio] = useState('')

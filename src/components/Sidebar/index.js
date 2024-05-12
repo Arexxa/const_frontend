@@ -119,7 +119,7 @@ export default function Example() {
                                     item.current
                                       ? 'bg-gray-50 text-indigo-600'
                                       : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-50',
-                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
+                                    'abel group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
                                   )}
                                 >
                                   <item.icon
@@ -193,7 +193,7 @@ export default function Example() {
                             item.current
                               ? 'bg-gray-50 text-orange-500 border border-gray-300 bg-white'
                               : 'text-gray-700 hover:text-orange-500 hover:bg-gray-50 border bg-white border-gray-300',
-                            'group flex gap-x-3 rounded-lg p-2 text-sm leading-6 font-semibold'
+                            'abel group flex gap-x-3 rounded-lg p-2 text-sm leading-6 font-semibold'
                           )}
                         >
                           <item.icon
@@ -213,7 +213,7 @@ export default function Example() {
                   <button
                       className={classNames(
                           'mb-6 text-gray-700 hover:text-orange-500',
-                          'group flex gap-x-3 rounded-lg p-2 text-sm leading-6 font-semibold'
+                          'abel group flex gap-x-3 rounded-lg p-2 text-sm leading-6 font-semibold'
                       )}
                       onClick={handleLogout}
                   >

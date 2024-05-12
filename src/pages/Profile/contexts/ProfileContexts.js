@@ -79,7 +79,7 @@ export const ProfileProvider = ({ children }) => {
 
     const updateWorkExperience = async (userId, workExperienceId,updatedWorkExperience) => {
         try {
-            const response = await baseUrl.put(`/application/detail/update?userId=${userId}&workExperienceId=${workExperienceId}`, updatedWorkExperience)
+            const response = await baseUrl.put(`/experience/detail/update?userId=${userId}&workExperienceId=${workExperienceId}`, updatedWorkExperience)
             console.log(response)
             setUserProfile(response)
         } catch (error) {
@@ -88,8 +88,19 @@ export const ProfileProvider = ({ children }) => {
         }
     }
 
+    const deleteDocument = async (userId,documentId) => {
+        try {
+            const response = await baseUrl.delete(`/application/detail/delete?userId=${userId}&documentId=${documentId}`)
+            console.log(response)
+            setUserProfile(response)
+        } catch (error) {
+            console.error('Error deleting cpver letter or resume:', error);
+            setError('Failed to detele cover letter or resume');
+        }
+    }
+
     return (
-        <ProfileContext.Provider value={{ userProfile, error, fetchUserProfile, updateUserProfile, roles, getRoles, universities, getUniversity, updateWorkExperience }}>
+        <ProfileContext.Provider value={{ userProfile, error, fetchUserProfile, updateUserProfile, roles, getRoles, universities, getUniversity, updateWorkExperience, deleteDocument }}>
             {children}
         </ProfileContext.Provider>
     );

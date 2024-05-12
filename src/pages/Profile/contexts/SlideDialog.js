@@ -6,22 +6,15 @@ import { useProfile } from './ProfileContexts';
 
 export default function SlideDialog({ isExperienceOpen, experiencePanel, workExperienceId }) {
   const { userData } = useLogin();
-  const { userProfile, fetchUserProfile, updateUserProfile,updateWorkExperience } = useProfile();
+  const { userProfile, fetchUserProfile,updateWorkExperience } = useProfile();
   const [formData, setFormData] = useState({});
 
-  // Utility function to format date from yyyy-mm-dd to dd/mm/yyyy
-  const formatDateForDisplay = (dateString) => {
-    if (!dateString) return '';
-    const parsedDate = new Date(dateString);
-    if (isNaN(parsedDate.getTime())) {
-      return '';
-    }
-
-    const day = parsedDate.getDate().toString().padStart(2, '0');
-    const month = (parsedDate.getMonth() + 1).toString().padStart(2, '0');
-    const year = parsedDate.getFullYear();
-
-    return `${day}/${month}/${year}`;
+  const formatDateFromDB = (dateString) => {
+    const date = new Date(dateString);
+    const month = (date.getMonth() + 1) < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`;
   };
 
   // Load data into form fields when dialog opens
@@ -33,8 +26,8 @@ export default function SlideDialog({ isExperienceOpen, experiencePanel, workExp
           position: selectedExperience.position || '',
           company: selectedExperience.company || '',
           description: selectedExperience.description || '',
-          startDate: formatDateForDisplay(selectedExperience.startDate) || '',
-          endDate: formatDateForDisplay(selectedExperience.endDate) || '',
+          startDate: selectedExperience.startDate || '',
+          endDate: selectedExperience.endDate || '',
           currentEmployer: selectedExperience.currentEmployer === 1,
         });
       }
@@ -65,31 +58,6 @@ export default function SlideDialog({ isExperienceOpen, experiencePanel, workExp
         console.error('Error updating user profile:', error);
       }
   };
-  
-  // const handleChange = (e) => {
-  //   const { name, value, checked, type } = e.target;
-  //     // Only update formData if the value is not an empty string
-  //   if (value !== '') {
-  //     // If the field is workExperience, education, or applications
-  //     if (['workExperience', 'education', 'applications'].includes(name)) {
-        
-  //       // Get the existing data for the field
-  //       const existingData = userProfile && userProfile[0] && userProfile[0][name];
-  //       // Update the formData with the existing data only if formData is empty for this field
-  //       setFormData((prevFormData) => ({
-  //           ...prevFormData,
-  //           [name]: prevFormData[name].length === 0 ? existingData || [] : prevFormData[name],
-  //         }));
-  //     } else {
-  //     // For other fields, update as usual
-  //       const newValue = type === 'checkbox' ? checked : value;
-  //       setFormData((prevFormData) => ({
-  //         ...prevFormData,
-  //         [name]: newValue,
-  //       }));
-  //     }
-  //   }
-  // };
 
   const handleChange = (e) => {
     const { name, value, checked, type } = e.target;
@@ -200,7 +168,7 @@ export default function SlideDialog({ isExperienceOpen, experiencePanel, workExp
                                 type="date"
                                 name="startDate"
                                 id="startDate"
-                                defaultValue={formData?.startDate || ''}
+                                defaultValue={formatDateFromDB(formData?.startDate)}
                                 onChange={handleChange}
                                 className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                             />
@@ -214,7 +182,7 @@ export default function SlideDialog({ isExperienceOpen, experiencePanel, workExp
                                 type="date"
                                 name="endDate"
                                 id="endDate"
-                                defaultValue={formData?.endDate || ''}
+                                defaultValue={formatDateFromDB(formData?.endDate)}
                                 onChange={handleChange}
                                 className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
                             />
