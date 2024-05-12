@@ -4,27 +4,59 @@ import { Transition, Dialog } from '@headlessui/react';
 import { useLogin } from '../../Auth/Login/contexts/LoginContext';
 import { useProfile } from './ProfileContexts';
 
-export default function SlideDialog({ isExperienceOpen, experiencePanel }) {
+export default function SlideDialog({ isExperienceOpen, experiencePanel, workExperienceId }) {
   const { userData } = useLogin();
-  const { userProfile, fetchUserProfile, updateUserProfile } = useProfile();
+  const { userProfile, fetchUserProfile, updateUserProfile,updateWorkExperience } = useProfile();
   const [formData, setFormData] = useState({});
+
+  // Utility function to format date from yyyy-mm-dd to dd/mm/yyyy
+  const formatDateForDisplay = (dateString) => {
+    if (!dateString) return '';
+    const parsedDate = new Date(dateString);
+    if (isNaN(parsedDate.getTime())) {
+      return '';
+    }
+
+    const day = parsedDate.getDate().toString().padStart(2, '0');
+    const month = (parsedDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = parsedDate.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  };
+
+  // Load data into form fields when dialog opens
+  useEffect(() => {
+    if (isExperienceOpen && userProfile && userProfile[0]) {
+      const selectedExperience = userProfile[0].workExperience.find(exp => exp.workExperienceId === workExperienceId);
+      if (selectedExperience) {
+        setFormData({
+          position: selectedExperience.position || '',
+          company: selectedExperience.company || '',
+          description: selectedExperience.description || '',
+          startDate: formatDateForDisplay(selectedExperience.startDate) || '',
+          endDate: formatDateForDisplay(selectedExperience.endDate) || '',
+          currentEmployer: selectedExperience.currentEmployer === 1,
+        });
+      }
+    }
+  }, [isExperienceOpen, userProfile, workExperienceId]);
 
   const handleSubmit = async (e) => {
       e.preventDefault();
       try {
         if (userProfile && userProfile[0]) {
-          const updatedProfile = { ...userProfile[0] };
-          Object.assign(updatedProfile, formData);
-          updatedProfile.workExperience = userProfile[0].workExperience;
-          updatedProfile.education = userProfile[0].education;
-          updatedProfile.applications = userProfile[0].applications;
-          const updatedData = {
-            userId: userData.userId,
-            updatedProfile: updatedProfile
-          };
-          // Update user profile
-          await updateUserProfile(updatedData);
+          const updatedWorkExperience = {
+            position: formData.position,
+            company: formData.company,
+            description: formData.description,
+            startDate: formData.startDate,
+            endDate: formData.endDate,
+            currentEmployer: formData.currentEmployer ? 1 : 0,
+          }
+          await updateWorkExperience(userData.userId, workExperienceId, updatedWorkExperience);
           console.log('User profile updated successfully!');
+          experiencePanel(); 
+          fetchUserProfile(userData.userId);
         } else {
           console.error('User profile data not available.');
         }
@@ -34,27 +66,39 @@ export default function SlideDialog({ isExperienceOpen, experiencePanel }) {
       }
   };
   
+  // const handleChange = (e) => {
+  //   const { name, value, checked, type } = e.target;
+  //     // Only update formData if the value is not an empty string
+  //   if (value !== '') {
+  //     // If the field is workExperience, education, or applications
+  //     if (['workExperience', 'education', 'applications'].includes(name)) {
+        
+  //       // Get the existing data for the field
+  //       const existingData = userProfile && userProfile[0] && userProfile[0][name];
+  //       // Update the formData with the existing data only if formData is empty for this field
+  //       setFormData((prevFormData) => ({
+  //           ...prevFormData,
+  //           [name]: prevFormData[name].length === 0 ? existingData || [] : prevFormData[name],
+  //         }));
+  //     } else {
+  //     // For other fields, update as usual
+  //       const newValue = type === 'checkbox' ? checked : value;
+  //       setFormData((prevFormData) => ({
+  //         ...prevFormData,
+  //         [name]: newValue,
+  //       }));
+  //     }
+  //   }
+  // };
+
   const handleChange = (e) => {
-  const { name, value } = e.target;
-      // Only update formData if the value is not an empty string
-      if (value !== '') {
-          // If the field is workExperience, education, or applications
-          if (['workExperience', 'education', 'applications'].includes(name)) {
-          // Get the existing data for the field
-          const existingData = userProfile && userProfile[0] && userProfile[0][name];
-          // Update the formData with the existing data only if formData is empty for this field
-          setFormData((prevFormData) => ({
-              ...prevFormData,
-              [name]: prevFormData[name].length === 0 ? existingData || [] : prevFormData[name],
-          }));
-          } else {
-          // For other fields, update as usual
-          setFormData((prevFormData) => ({
-              ...prevFormData,
-              [name]: value,
-          }));
-          }
-      }
+    const { name, value, checked, type } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: newValue,
+    }));
   };
   
   useEffect(() => {
@@ -87,22 +131,110 @@ export default function SlideDialog({ isExperienceOpen, experiencePanel }) {
                           Edit Experience
                         </Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
-                            <button
+                          <button
                             type="button"
                             className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-transparent"
                             onClick={experiencePanel}
-                            >
-                            <span className="absolute -inset-2.5" />
-                            <span className="sr-only">Close panel</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                                <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                            </svg>
-                            </button>
+                          >
+                          <span className="absolute -inset-2.5" />
+                          <span className="sr-only">Close panel</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                              <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                          </svg>
+                          </button>
                         </div>
                       </div>
                     </div>
                     <div className="flex min-h-0 flex-1 flex-col overflow-y-scroll py-6">
-                      <div className="relative mt-6 flex-1 px-4 sm:px-6">{/* Your content */}</div>
+                      <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                        {/* Your content */}
+                        <form onSubmit={handleSubmit}>
+                            <div className="pb-4">
+                              <label htmlFor="position" className="block text-sm font-medium leading-6 text-gray-900">
+                                  Position
+                              </label>
+                              <input
+                                  type="text"
+                                  name="position"
+                                  id="position"
+                                  defaultValue={formData?.position || ''}
+                                  onChange={handleChange}
+                                  className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
+                              />
+                            </div>
+
+                            <div className="pb-4">
+                              <label htmlFor="company" className="block text-sm font-medium leading-6 text-gray-900">
+                                  Company
+                              </label>
+                              <input
+                                  type="text"
+                                  name="company"
+                                  id="company"
+                                  defaultValue={formData?.company || ''}
+                                  onChange={handleChange}
+                                  className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
+                              />
+                            </div>
+
+                            <div className="pb-4">
+                              <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">
+                                  Description
+                              </label>
+                              <textarea
+                                  name="description"
+                                  id="description"
+                                  defaultValue={formData?.description || ''}
+                                  onChange={handleChange}
+                                  placeholder="lorem..."
+                                  className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 h-25 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
+                                  >
+                              </textarea> 
+                          </div>
+
+                          <div className="pb-4">
+                            <label htmlFor="startDate" className="block text-sm font-medium leading-6 text-gray-900">
+                                Start Date
+                            </label>
+                            <input
+                                type="date"
+                                name="startDate"
+                                id="startDate"
+                                defaultValue={formData?.startDate || ''}
+                                onChange={handleChange}
+                                className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
+                            />
+                          </div>
+
+                          <div className="pb-4">
+                            <label htmlFor="endDate" className="block text-sm font-medium leading-6 text-gray-900">
+                                End Date
+                            </label>
+                            <input
+                                type="date"
+                                name="endDate"
+                                id="endDate"
+                                defaultValue={formData?.endDate || ''}
+                                onChange={handleChange}
+                                className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
+                            />
+                          </div>
+
+                          <div className="pb-4">
+                            <label htmlFor="currentEmployer" className="block text-sm font-medium leading-6 text-gray-900">
+                              Current Employer
+                            </label>
+                            <input
+                                type="checkbox"
+                                name="currentEmployer"
+                                id="currentEmployer"
+                                checked={formData.currentEmployer}
+                                onChange={handleChange}
+                                className="block w-4 h-4 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                            />
+                          </div>
+                        </form>
+                      </div>
                     </div>
                     <div className="flex flex-shrink-0 justify-end px-4 py-4">
                       <button

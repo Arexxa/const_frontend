@@ -32,8 +32,11 @@ export default function Profile() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isEducationOpen, setIsEducationOpen] = useState(false);
 
-  const experiencePanel = () => {
+  const [selectedWorkExpId, setSelectedWorkExpId] = useState('')
+
+  const experiencePanel = (workExperienceId) => {
     setIsExperienceOpen(!isExperienceOpen);
+    setSelectedWorkExpId(workExperienceId)
   };
 
   const profilePanel = () => {
@@ -274,10 +277,10 @@ export default function Profile() {
                       {/* Edit button */}
                       <div className="flex justify-between items-center">
                         <h3 className="text-xl font-semibold leading-6 text-gray-900">Experience</h3>
-                        <button type="button" className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={experiencePanel}>
+                        {/* <button type="button" className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={experiencePanel}>
                             <PencilIcon className="h-5 w-5 -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
                             <span>Edit</span>
-                        </button>
+                        </button> */}
                       </div>
 
                       {/* todo- looping for displaying work experience detail */}
@@ -285,12 +288,22 @@ export default function Profile() {
                       {userProfile?.[0]?.workExperience.map((experience, index) => (
                           <div key={index} className="border border-gray-200 sm:rounded-lg sm:p-4 flex-1 flex items-center">
                             <div className="w-full">
+                              <div className="flex justify-between items-center">
+                                <h3 className="text-xl font-semibold leading-6 text-gray-900"></h3>
+                                <button type="button" className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={() => experiencePanel(experience.workExperienceId)}>
+                                    <PencilIcon className="h-5 w-5 -ml-0.5 mr-1.5" aria-hidden="true" />
+                                    <span>Edit</span>
+                                </button>
+                              </div>
                               <h3 className="text-base font-semibold leading-6 text-gray-900">{experience.position}</h3>
                               <div className="max-w-xl text-sm font-normal text-gray-900">
                                 <p>{experience.company}</p>
                               </div>
                               <div className="max-w-xl text-sm font-normal text-gray-400">
                                 <p>{formatDateRange(experience.startDate, experience.endDate, experience.currentEmployer)}</p>
+                              </div>
+                              <div className="max-w-xl text-sm font-normal text-gray-900">
+                                <p>{experience.description}</p>
                               </div>
                             </div>
                           </div>
@@ -419,7 +432,7 @@ export default function Profile() {
       </main>
 
       {/* Slide-in panel Experience */}
-      <SlideDialog isExperienceOpen={isExperienceOpen} experiencePanel={experiencePanel} />
+      <SlideDialog isExperienceOpen={isExperienceOpen} experiencePanel={experiencePanel} workExperienceId={selectedWorkExpId} />
       <ProfileDialog isProfileOpen={isProfileOpen} profilePanel={profilePanel} />
       <EducationDialog isEducationOpen={isEducationOpen} educationPanel={educationPanel} />
     </div>

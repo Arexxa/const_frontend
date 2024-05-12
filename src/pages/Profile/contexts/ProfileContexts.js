@@ -77,8 +77,19 @@ export const ProfileProvider = ({ children }) => {
         }
     };
 
+    const updateWorkExperience = async (userId, workExperienceId,updatedWorkExperience) => {
+        try {
+            const response = await baseUrl.put(`/application/detail/update?userId=${userId}&workExperienceId=${workExperienceId}`, updatedWorkExperience)
+            console.log(response)
+            setUserProfile(response)
+        } catch (error) {
+            console.error('Error updating user work experience:', error);
+            setError('Failed to update user work experience');
+        }
+    }
+
     return (
-        <ProfileContext.Provider value={{ userProfile, error, fetchUserProfile, updateUserProfile, roles, getRoles, universities, getUniversity }}>
+        <ProfileContext.Provider value={{ userProfile, error, fetchUserProfile, updateUserProfile, roles, getRoles, universities, getUniversity, updateWorkExperience }}>
             {children}
         </ProfileContext.Provider>
     );
