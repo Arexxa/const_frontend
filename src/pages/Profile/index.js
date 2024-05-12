@@ -252,9 +252,6 @@ export default function Profile() {
                               <div className="max-w-xl text-sm font-normal text-gray-400">
                                 <p>{formatDateRange(experience.startDate, experience.endDate, experience.currentEmployer)}</p>
                               </div>
-                              <div className="max-w-xl text-sm font-normal text-gray-900">
-                                <p>{experience.description}</p>
-                              </div>
                             </div>
                           </div>
                         ))}
