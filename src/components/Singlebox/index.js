@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import { useProfile } from '../../pages/Profile/contexts/ProfileContexts'
 
-const SingleBox = ({ defaultValue }) => {
+const SingleBox = ({ defaultValue, handleChange }) => {
   const { getUniversity, universities } = useProfile();
   const [selected, setSelected] = useState(defaultValue || ''); // Initialize with defaultValue or an empty string
   const [query, setQuery] = useState('');
@@ -21,7 +21,11 @@ const SingleBox = ({ defaultValue }) => {
   }, [universities]);
 
   const handleSelectionChange = (selectedItem) => {
-    setSelected(selectedItem);
+    setSelected(selectedItem.name);
+    // Call handleChange from props with the selected option
+    if (typeof handleChange === 'function') {
+      handleChange(selectedItem);
+    }
   }
 
   const handleUniversitySearch = async (value) => {

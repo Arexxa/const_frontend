@@ -11,58 +11,73 @@ export default function EducationDialog({ isEducationOpen, educationPanel }) {
   const [formData, setFormData] = useState({});
   
   const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
+    e.preventDefault();
+    try {
         if (userProfile && userProfile[0]) {
-          const updatedProfile = { ...userProfile[0] };
-          Object.assign(updatedProfile, formData);
-          updatedProfile.workExperience = userProfile[0].workExperience;
-          updatedProfile.education = userProfile[0].education;
-          updatedProfile.applications = userProfile[0].applications;
-          const updatedData = {
-            userId: userData.userId,
-            updatedProfile: updatedProfile
-          };
-          // Update user profile
-          await updateUserProfile(updatedData);
-          console.log('User profile updated successfully!');
+            const updatedProfile = { ...userProfile[0] };
+            updatedProfile.education = [
+                {
+                    ...userProfile[0].education[0], // Keep the existing education data
+                    course: formData.course, // Update the course field with the new value
+                },
+            ];
+            const updatedData = {
+                userId: userData.userId,
+                updatedProfile: updatedProfile,
+            };
+            // Update user profile
+            await updateUserProfile(updatedData);
+            console.log('User profile updated successfully!');
         } else {
-          console.error('User profile data not available.');
+            console.error('User profile data not available.');
         }
-      console.log('Updating user profile with data:', formData);
-      } catch (error) {
+        console.log('Updating user profile with data:', formData);
+    } catch (error) {
         console.error('Error updating user profile:', error);
-      }
-  };
-  
-  const handleChange = (e) => {
-  const { name, value } = e.target;
-      // Only update formData if the value is not an empty string
-      if (value !== '') {
-          // If the field is workExperience, education, or applications
-          if (['workExperience', 'education', 'applications'].includes(name)) {
-          // Get the existing data for the field
-          const existingData = userProfile && userProfile[0] && userProfile[0][name];
-          // Update the formData with the existing data only if formData is empty for this field
-          setFormData((prevFormData) => ({
-              ...prevFormData,
-              [name]: prevFormData[name].length === 0 ? existingData || [] : prevFormData[name],
-          }));
-          } else {
-          // For other fields, update as usual
-          setFormData((prevFormData) => ({
-              ...prevFormData,
-              [name]: value,
-          }));
-          }
-      }
-  };
-  
-    useEffect(() => {
-    if (userData && !userProfile) {
-        fetchUserProfile(userData.userId);
     }
-    }, [userData, userProfile, fetchUserProfile]);
+  };
+
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  // Only update formData if the value is not an empty string
+  if (value !== '') {
+      // For other fields, update as usual
+      setFormData((prevFormData) => ({
+          ...prevFormData,
+          [name]: value, // Always update the formData with the new value
+      }));
+  }
+};
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     // Only update formData if the value is not an empty string
+//     if (value !== '') {
+//         // If the field is workExperience, education, or applications
+//         if (['workExperience', 'education', 'applications'].includes(name)) {
+//         // Get the existing data for the field
+//         const existingData = userProfile && userProfile[0] && userProfile[0][name];
+//         // Update the formData with the existing data only if formData is empty for this field
+//         setFormData((prevFormData) => ({
+//             ...prevFormData,
+//             [name]: prevFormData[name].length === 0 ? existingData || [] : prevFormData[name],
+//         }));
+//         } else {
+//         // For other fields, update as usual
+//         setFormData((prevFormData) => ({
+//             ...prevFormData,
+//             [name]: value, // Always update the formData with the new value
+//         }));
+//         }
+//     }
+// };
+  
+  useEffect(() => {
+  if (userData && !userProfile) {
+      fetchUserProfile(userData.userId);
+  }
+  }, [userData, userProfile, fetchUserProfile]);
 
   return (
     <Transition.Root show={isEducationOpen} as={Fragment}>
@@ -121,7 +136,7 @@ export default function EducationDialog({ isEducationOpen, educationPanel }) {
                                     <label htmlFor="university" className="block text-sm font-medium leading-6 text-gray-900">
                                         University
                                     </label>
-                                    <input
+                                    {/* <input
                                         type="text"
                                         name="university"
                                         id="university"
@@ -130,12 +145,16 @@ export default function EducationDialog({ isEducationOpen, educationPanel }) {
                                           ''}
                                         onChange={handleChange}
                                         className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
-                                    />
-                                      <SingleBox defaultValue={
-                                        (formData.education && formData.education[0] && formData.education[0].university) ||
+                                    /> */}
+                                      <SingleBox
+                                        name="university"
+                                        id="university"
+                                        defaultValue={(formData.education && formData.education[0] && formData.education[0].university) ||
                                         (userProfile && userProfile[0]?.education && userProfile[0].education[0]?.university) ||
-                                        ''
-                                      } />
+                                        ''}
+                                        onChange={handleChange}
+
+                                      />
                                 </div>
 
                                 <div className="pb-4">
@@ -143,16 +162,16 @@ export default function EducationDialog({ isEducationOpen, educationPanel }) {
                                         Course
                                     </label>
                                     <textarea
-                                        name="course"
-                                        id="course"
-                                        defaultValue={(formData.education && formData.education[0] && formData.education[0].course) ||
-                                          (userProfile && userProfile[0]?.education && userProfile[0].education[0]?.course) ||
-                                          ''}
-                                        onChange={handleChange}
-                                        placeholder="lorem..."
-                                        className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 h-25 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
-                                        >
-                                    </textarea>
+                                      name="course"
+                                      id="course"
+                                      defaultValue={(formData.education && formData.education[0] && formData.education[0].course) ||
+                                        (userProfile && userProfile[0]?.education && userProfile[0].education[0]?.course) ||
+                                        ''}
+                                      onChange={handleChange}
+                                      placeholder="Course"
+                                      className="mt-2 block w-full rounded-md border-0 px-3 py-1.5 h-25 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
+                                    />
+
                                     <div className="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
 
                                     </div>
