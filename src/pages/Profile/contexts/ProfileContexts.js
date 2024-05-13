@@ -18,7 +18,7 @@ export const ProfileProvider = ({ children }) => {
             const response = await baseUrl.get(`/user/profile?userId=${userId}`);
             const userData = response.data.result; // Access 'result' property
             setUserProfile(userData);
-            console.log('test userData', userData);
+            // console.log('test userData', userData);
             return userData;
         } catch (error) {
             console.error('Error fetching user data:', error);
@@ -69,7 +69,7 @@ export const ProfileProvider = ({ children }) => {
             const data = await response.json();
             setUniversities(data);
 
-            console.log('University data fetched successfully:', data);
+            // console.log('University data fetched successfully:', data);
             return data; // Return the fetched university data
         } catch (error) {
             console.error('Failed to fetch university data:', error);
