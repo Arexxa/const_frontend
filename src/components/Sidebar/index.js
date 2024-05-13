@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 const navigation = [
   { name: 'Dashboard', href: '/home', icon: HomeIcon, current: false },
-  { name: 'Profile', href: '#', icon: UserIcon, current: window.location.pathname === "/profile" },
+  { name: 'Profile', href: '/profile', icon: UserIcon, current: window.location.pathname === "/profile" },
   { name: 'Job Application Status', href: '#', icon: BriefcaseIcon , current: false },
   { name: 'Job bookmarked', href: '#', icon: BookmarkIcon, current: false },
   { name: 'Settings', href: '#', icon: CogIcon, current: false },
