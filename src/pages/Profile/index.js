@@ -11,6 +11,14 @@ import ProfileDialog from './contexts/ProfileDialog';
 import EducationDialog from './contexts/EducationDialog';
 import CoverLetterResumeDialog from './contexts/CoverLetterResumeDialog';
 
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const month = (date.getMonth() + 1) < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+  const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+  const year = date.getFullYear();
+  return `${year}`;
+};
+
 const user = {
   name: 'Ben Said',
   handle: 'deblewis',
@@ -93,7 +101,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col justify-start ">
+    <div className="abel w-full h-screen flex flex-col justify-start ">
       <Sidebar />
       <div className="bg-zinc-500 pb-32">
         <header className="py-10 text-left">
@@ -260,41 +268,39 @@ export default function Profile() {
                   </div>
 
                   {/* todo- looping for displaying education detail */}
-                  <div className="mt-6 bg-white border border-gray-200 sm:rounded-lg">
-                    <div className="px-4 py-5 sm:p-6">
-                      <div className="flex justify-between items-center">
-                        <h3 className="abel text-xl font-semibold leading-6 text-gray-900">Education</h3>
-                        <button type="button" className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={educationPanel}>
-                          <PencilIcon className="h-5 w-5 -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-                          <span>Edit</span>
-                        </button>
-                      </div>
-                      <div className="ml-4 mt-4">
-                        <div className="flex items-center">
-                          <div className="flex-shrink-0">
-                            <img
-                              className="h-24 w-24"
-                              src="https://logo.clearbit.com/uitm.edu.my?size=200"
-                              alt=""
-                            />
-                          </div>
-                          <div className="ml-4">
-                            <h3 className="text-base font-semibold leading-6 text-gray-900">Universiti Teknologi Mara</h3>
-                            <div className="max-w-xl text-sm font-normal text-gray-900">
-                              <p>
-                                Bachelor of Applied Science - BASc, Biology/Biological Sciences, General
-                              </p>
+                  {userProfile?.[0]?.education.map((education, index) => (
+                    <div key={index} className="mt-6 bg-white border border-gray-200 sm:rounded-lg">
+                      <div className="px-4 py-5 sm:p-6">
+                        <div className="flex justify-between items-center">
+                          <h3 className="text-xl font-semibold leading-6 text-gray-900">Education</h3>
+                          <button type="button" className="flex items-center space-x-1 text-gray-400 hover:text-gray-300" onClick={educationPanel}>
+                            <PencilIcon className="h-5 w-5 -ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+                            <span>Edit</span>
+                          </button>
+                        </div>
+                        <div className="ml-4 mt-4">
+                          <div className="flex items-center">
+                            <div className="flex-shrink-0">
+                              <img
+                                className="h-24 w-24"
+                                src={`https://logo.clearbit.com/${education.domain}?size=200`}
+                                alt=""
+                              />
                             </div>
-                            <div className="max-w-xl text-sm font-normal text-gray-400">
-                              <p>
-                                2017 - 2019
-                              </p>
+                            <div className="ml-4">
+                              <h3 className="text-base font-semibold leading-6 text-gray-900">{education.university}</h3>
+                              <div className="max-w-xl text-sm font-normal text-gray-900">
+                                <p>{education.course}</p>
+                              </div>
+                              <div className="max-w-xl text-sm font-normal text-gray-400">
+                                <p>{formatDate(education.startDate)} - {formatDate(education.endDate)}</p>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  ))}
 
                   {/* Cover letter & resume*/}
                   <div className="mt-6 bg-white border border-gray-200 sm:rounded-lg">
@@ -324,7 +330,7 @@ export default function Profile() {
                                 <p className='abel'>{application.fileName}</p>
                               </div>
                               <div className="text-sm font-normal text-gray-900">
-                                <p>{application.uploadDate.split('T')[0]}</p>
+                                {/* <p>{application.uploadDate.split('T')[0]}</p> */}
                               </div>
                               <div className="grid grid-cols-1 gap-6 mt-5 md:grid-cols-2">
                                 <div>
