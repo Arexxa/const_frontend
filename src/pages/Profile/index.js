@@ -19,6 +19,24 @@ const formatDate = (dateString) => {
   return `${year}`;
 };
 
+function formatDateAdd(dateString) {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+
+  const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June', 'July',
+    'August', 'September', 'October', 'November', 'December'
+  ];
+
+  let month = date.getMonth();
+  let day = date.getDate();
+
+  month = monthNames[month];
+  day = day < 10 ? `0${day}` : day;
+
+  return `${day} ${month} ${year}`;
+}
+
 const user = {
   name: 'Ben Said',
   handle: 'deblewis',
@@ -64,12 +82,12 @@ export default function Profile() {
 
   const handlePreview = (fileData) => {
     const base64Data = fileData.split(',')[1];
-    const binaryData = atob(base64Data); 
+    const binaryData = atob(base64Data);
 
-    const blob = new Blob([binaryData], { type: 'application/pdf' }); 
-    const url = URL.createObjectURL(blob); 
+    const blob = new Blob([binaryData], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
 
-    window.open(url, '_blank'); 
+    window.open(url, '_blank');
   }
 
   useEffect(() => {
@@ -330,7 +348,7 @@ export default function Profile() {
                                 <p className='abel'>{application.fileName}</p>
                               </div>
                               <div className="text-sm font-normal text-gray-900">
-                                {/* <p>{application.uploadDate.split('T')[0]}</p> */}
+                                <p>Date added: {formatDateAdd(application.uploadDate)}</p>
                               </div>
                               <div className="grid grid-cols-1 gap-6 mt-5 md:grid-cols-2">
                                 <div>
