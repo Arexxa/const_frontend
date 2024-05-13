@@ -21,10 +21,15 @@ const SingleBox = ({ defaultValue, handleChange }) => {
   }, [universities]);
 
   const handleSelectionChange = (selectedItem) => {
-    setSelected(selectedItem.name);
-    // Call handleChange from props with the selected option
+    setSelected(selectedItem); // Update state with the selected option object
+    // Call handleChange from props with the selected option's name
     if (typeof handleChange === 'function') {
-      handleChange(selectedItem);
+      handleChange({
+        target: {
+          name: 'university', // Assuming the target name should be 'university'
+          value: selectedItem.name // Pass only the name of the selected option
+        }
+      });
     }
   }
 
@@ -45,9 +50,9 @@ const SingleBox = ({ defaultValue, handleChange }) => {
     <div className="relative w-full" style={{ zIndex: 20 || 10 }}>
       <Combobox value={selected} onChange={handleSelectionChange}>
         <div className="relative w-full cursor-default overflow-hidden bg-white text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
-          <Combobox.Input
+        <Combobox.Input
             className="block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-0 focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6"
-            value={selected ? selected.name : ''}
+            value={selected ? selected.name : ''} // Ensure value is always defined
             onChange={(event) => {
               setQuery(event.target.value);
               handleUniversitySearch(event.target.value);
@@ -70,48 +75,42 @@ const SingleBox = ({ defaultValue, handleChange }) => {
           afterLeave={() => setQuery('')}
         >
           <Combobox.Options className="text-left absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-            {filteredOptions && filteredOptions.length === 0 && query !== '' ? (
-              <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
-                Nothing found.
-              </div>
-            ) : (
-              filteredOptions.map((option, index) => (
-                <Combobox.Option
-                  key={index}
-                  className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? 'bg-orange-500 text-white' : 'text-gray-900'
-                    }`
-                  }
-                  value={option}
-                >
-                  {({ selected, active }) => (
-                    <>
+            {filteredOptions.map((option, index) => (
+              <Combobox.Option
+                key={index}
+                className={({ active }) =>
+                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                    active ? 'bg-orange-500 text-white' : 'text-gray-900'
+                  }`
+                }
+                value={option}
+              >
+                {({ selected, active }) => (
+                  <>
+                    <span
+                      className={`block truncate ${
+                        selected ? 'font-medium' : 'font-normal'
+                      }`}
+                    >
+                      {option.name}
+                    </span>
+                    {selected ? (
                       <span
-                        className={`block truncate ${
-                          selected ? 'font-medium' : 'font-normal'
+                        className={`absolute inset-y-0 left-0 flex items-center pl-1.5 ${
+                          active ? 'text-white' : 'text-teal-600'
                         }`}
                       >
-                        {option.name}
+                        <div className="h-5 w-5" aria-hidden="true">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                          </svg>
+                        </div>
                       </span>
-                      {selected ? (
-                        <span
-                          className={`absolute inset-y-0 left-0 flex items-center pl-1.5 ${
-                            active ? 'text-white' : 'text-teal-600'
-                          }`}
-                        >
-                          <div className="h-5 w-5" aria-hidden="true">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg>
-                          </div>
-                        </span>
-                      ) : null}
-                    </>
-                  )}
-                </Combobox.Option>
-              ))
-            )}
+                    ) : null}
+                  </>
+                )}
+              </Combobox.Option>
+            ))}
           </Combobox.Options>
         </Transition>
       </Combobox>
