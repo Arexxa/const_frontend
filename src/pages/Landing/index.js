@@ -15,6 +15,7 @@ import {
     Box,
 } from '@chakra-ui/react'
 import { MinusIcon, AddIcon } from '@chakra-ui/icons'
+import { Link } from 'react-router-dom';
 
 const bullet = [
     {
@@ -66,9 +67,11 @@ function Landing() {
                         </div>
                     </div>
                     <div className="mx-auto flex justify-center">
+                    <Link to="/login">
                         <button className="abel bg-[#FBA91A] hover:bg-amber-300 text-[14px] lg:text-[16px] text-white py-3 px-4 lg:px-24 rounded leading-[20.39px]">
                             Book a free consultation call
                         </button>
+                    </Link>
                     </div>
                 </div>
                 <div className="mx-auto flex justify-center mt-[20px] lg:mt-[60px]">

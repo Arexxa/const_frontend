@@ -166,7 +166,7 @@ function Login() {
                             <p className="flex mt-2 text-sm text-center">
                                 First time login ? Create new account{' '}
                                 <a
-                                    href=""
+                                    href="/register"
                                     onClick={handleRegister}
                                     className="text-blue-500 focus:outline-none focus:underline hover:underline"
                                 >

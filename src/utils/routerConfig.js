@@ -11,8 +11,8 @@ import Landing from '../pages/Landing'
 const AppRoutes = () => {
     return (
         <Routes>
-            <Route exact path="/" element={<Login />} />
-            <Route exact path="/landing" element={<Landing />} />
+            <Route exact path="/" element={<Landing />} />
+            <Route exact path="/login" element={<Login />} />
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/home" element={<Home />} />
             <Route exact path="/profile" element={<Profile />} />
