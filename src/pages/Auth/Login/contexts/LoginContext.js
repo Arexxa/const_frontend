@@ -44,6 +44,7 @@ export const LoginProvider = ({ children }) => {
         setUserData(null);
         // Clear userData from local storage on logout
         localStorage.removeItem('userData');
+        localStorage.removeItem('userid')
     };
 
     return (

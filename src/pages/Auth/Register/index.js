@@ -166,7 +166,7 @@ function Register() {
                     // Register applications using updated structure
                     await registerApplication(userId, applicationsData)
                     console.log('Applications registered successfully.')
-                    // navigate('/profile')
+                    navigate('/login')
                 } catch (error) {
                     console.error(
                         'update portfolio and website failed!:',

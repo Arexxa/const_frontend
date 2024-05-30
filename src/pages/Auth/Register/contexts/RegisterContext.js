@@ -9,6 +9,7 @@ export const useRegister = () => {
 
 export const RegisterProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+    const [userData, setUserData] = useState(null);
     const [error, setError] = useState(null)
 
     const register = async (name, email, password) => {
@@ -22,6 +23,7 @@ export const RegisterProvider = ({ children }) => {
             console.log('Registered', response.data.userRegister.userId)
             // setUser(response.data.transaction.message)
             localStorage.setItem('userid', response.data.userRegister.userId)
+            localStorage.setItem('userData', JSON.stringify(response.data.userRegister));
             console.log('user-id', localStorage.getItem('userid'))
             setUser('Success')
         } catch (error) {
@@ -55,6 +57,7 @@ export const RegisterProvider = ({ children }) => {
             })
             // Handle successful response
             console.log('Profile updated:', response.data)
+            // localStorage.setItem('userData', JSON.stringify(userData));
             setUser('Success')
         } catch (error) {
             setError(error.response.data.error || 'Internal Server Error')
