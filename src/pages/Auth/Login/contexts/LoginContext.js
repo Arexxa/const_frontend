@@ -29,9 +29,11 @@ export const LoginProvider = ({ children }) => {
             });
             console.log('Login successful', response);
             const userData = response.data.user;
+            console.log(userData)
             setUserData(userData);
             setUser('Success');
             // Store userData in local storage
+            localStorage.setItem('userid', userData.userId);
             localStorage.setItem('userData', JSON.stringify(userData));
         } catch (error) {
             console.error('Login failed!', error);

@@ -53,6 +53,7 @@ export default function Profile() {
   const [isEducationOpen, setIsEducationOpen] = useState(false);
   const [isCoverLetterResumeOpen, setIsCoverLetterResumeOpen] = useState(false);
   const [selectedWorkExpId, setSelectedWorkExpId] = useState('')
+  const userid = localStorage.getItem('userid')
 
   const experiencePanel = (workExperienceId) => {
     setIsExperienceOpen(!isExperienceOpen);
@@ -73,8 +74,8 @@ export default function Profile() {
 
   const handleDeleteDocument = async(documentId) => {
     try {
-      await deleteDocument(userData.userId, documentId)
-      fetchUserProfile(userData.userId);
+      await deleteDocument(userid, documentId)
+      fetchUserProfile(userid);
     } catch (error) {
       console.error('Error deleting document:', error);
     }
@@ -91,10 +92,15 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    if (userData && !userProfile) {
-      fetchUserProfile(userData.userId);
+    // if (userData && !userProfile) {
+    //   console.log(userid)
+    //   fetchUserProfile(userid);
+    // }
+    if (userid) {
+      console.log(userid)
+      fetchUserProfile(userid);
     }
-  }, [userData, userProfile, fetchUserProfile]);
+  }, [userid]);
 
   // Function to format date range
   const formatDateRange = (startDateString, endDateString, currentEmployer) => {
