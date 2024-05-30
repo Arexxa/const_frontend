@@ -92,10 +92,6 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    // if (userData && !userProfile) {
-    //   console.log(userid)
-    //   fetchUserProfile(userid);
-    // }
     if (userid) {
       console.log(userid)
       fetchUserProfile(userid);
