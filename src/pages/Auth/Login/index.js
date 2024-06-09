@@ -5,29 +5,30 @@ import googleLogo from '../../../media/icon/google-logo.png';
 import linkedinLogo from '../../../media/icon/linkedin-logo.png';
 
 function Login() {
-    const { user, error, login } = useLogin()
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const navigate = useNavigate()
+    const { user, error, login } = useLogin();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
-    e.preventDefault();
-    const loginResult = await login(email, password);
-    if (loginResult === 'Success') {
-        // Update user state or perform any necessary actions
-        navigate('/profile');
-    }
-}
+        e.preventDefault();
+        await login(email, password);
+    };
 
     const handleRegister = () => {
-        navigate('/register')
-    }
+        navigate('/register');
+    };
 
     useEffect(() => {
-        if (user === 'Success') {
-            navigate('/profile')
+        if (user && user.roleId) {
+            // Redirect based on user role
+            if (user.roleId === 2) {
+                navigate('/consultant');
+            } else if (user.roleId === 3) {
+                navigate('/profile');
+            }
         }
-    }, [user, navigate])
+    }, [user, navigate]);
 
     return (
         <div className="bg-white dark:bg-gray-900">

@@ -29,15 +29,25 @@ export const LoginProvider = ({ children }) => {
             });
             console.log('Login successful', response);
             const userData = response.data.user;
-            console.log(userData)
-            setUserData(userData);
-            setUser('Success');
-            // Store userData in local storage
-            localStorage.setItem('userid', userData.userId);
-            localStorage.setItem('userData', JSON.stringify(userData));
+            console.log(userData);
+            // Check if user data contains roleId before setting user state
+            if (userData && userData.roleId) {
+                setUserData(userData);
+                setUser(userData); // Set user state with userData
+                // Store userData in local storage
+                localStorage.setItem('userid', userData.userId);
+                localStorage.setItem('roleId', userData.roleId);
+                localStorage.setItem('userData', JSON.stringify(userData));
+                return 'Success'; // Return 'Success' upon successful login
+            } else {
+                // Handle case where roleId is missing in userData
+                setError('Role ID missing in user data');
+                return 'Error'; // Return 'Error' if roleId is missing
+            }
         } catch (error) {
             console.error('Login failed!', error);
             setError('Failed');
+            return 'Error'; // Return 'Error' upon login failure
         }
     };
 
@@ -46,7 +56,8 @@ export const LoginProvider = ({ children }) => {
         setUserData(null);
         // Clear userData from local storage on logout
         localStorage.removeItem('userData');
-        localStorage.removeItem('userid')
+        localStorage.removeItem('userid');
+        localStorage.removeItem('roleId');
     };
 
     return (
