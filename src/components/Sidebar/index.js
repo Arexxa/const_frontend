@@ -9,6 +9,7 @@ import {
 } from '@heroicons/react/solid';
 import { useLogin } from '../../pages/Auth/Login/contexts/LoginContext';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const userNavigation = [
   { name: 'Dashboard', href: '/home', icon: HomeIcon, current: false },
@@ -21,6 +22,13 @@ const userNavigation = [
 const consultantNavigation = [
   { name: 'Home', href: '/consultant', icon: HomeIcon, current: window.location.pathname === "/consultant" },
   { name: 'Consultation progress', href: '/progress', icon: UserIcon, current: window.location.pathname === "/progress" },
+];
+
+const adminNavigation = [
+  { name: 'Home', href: '/usermanagement', icon: HomeIcon, current: window.location.pathname === "/usermanagement" },
+  { name: 'Consultation progress', href: '/progress', icon: UserIcon, current: window.location.pathname === "/progress" },
+  { name: 'User List', href: '/userlist', icon: UserIcon, current: window.location.pathname === "/userlist" },
+  { name: 'Consultant List', href: '/consultantlist', icon: UserIcon, current: window.location.pathname === "/consultantlist" },
 ];
 
 const teams = [
@@ -44,22 +52,35 @@ export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [role, setRole] = useState(null);
   const [navigation, setNavigation] = useState([]);
+  const location = useLocation();
   const { logout } = useLogin();
   const navigate = useNavigate();
 
   useEffect(() => {
     const roleId = localStorage.getItem('roleId');
-    setRole(roleId);
-    console.log('Role ID:', roleId); // Debug: check the roleId value
+    let newNavigation = [];
 
     if (roleId === '2') {
-      setNavigation(consultantNavigation);
+      newNavigation = consultantNavigation.map(item => ({
+        ...item,
+        current: item.href === location.pathname
+      }));
     } else if (roleId === '3') {
-      setNavigation(userNavigation);
+      newNavigation = userNavigation.map(item => ({
+        ...item,
+        current: item.href === location.pathname
+      }));
+    } else if (roleId === '1') {
+      newNavigation = adminNavigation.map(item => ({
+        ...item,
+        current: item.href === location.pathname
+      }));
     } else {
       console.log('Invalid role ID or role ID not found');
     }
-  }, []);
+
+    setNavigation(newNavigation);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     logout(); // Call logout function
@@ -168,7 +189,7 @@ export default function Example() {
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-neutral-50 px-10">
             <div className="flex h-16 shrink-0 items-center">
               <div className="text-black text-2xl font-extralight">
-                {role === '2' ? 'Dashboard' : role === '3' ? 'Profile' : 'Default Text'}
+                {role === '2' ? 'Dashboard' : role === '3' ? 'Profile' : role === '1' ? 'Dashboard' : 'Default Text'}
               </div>
             </div>
             <nav className="flex flex-1 flex-col">

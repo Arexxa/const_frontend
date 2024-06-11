@@ -4,15 +4,19 @@ import { RegisterProvider } from '../Auth/Register/contexts/RegisterContext'
 import { UserManagementProvider } from '../admin/usermanagement/contexts/UserManagementContext'
 import { ProfileProvider } from '../Profile/contexts/ProfileContexts'
 import { RegisterConsultantProvider } from '../Auth/RegisterConsultant/contexts/RegisterConsultantContext'
+import { UserProvider } from '../consultant/userlist/contexts/UserListContext'
+
 
 const AppContextProviders = ({ children }) => {
     return (
         <LoginProvider>
             <RegisterProvider>
                 <RegisterConsultantProvider>
-                    <ProfileProvider>
-                        <UserManagementProvider>{children}</UserManagementProvider>
-                    </ProfileProvider>
+                    <UserProvider>
+                        <ProfileProvider>
+                            <UserManagementProvider>{children}</UserManagementProvider>
+                        </ProfileProvider>
+                    </UserProvider>
                 </RegisterConsultantProvider>
             </RegisterProvider>
         </LoginProvider>

@@ -9,8 +9,10 @@ import UserManagement from '../pages/admin/usermanagement'
 import Landing from '../pages/Landing'
 import Consultant from '../pages/consultant/userlist'
 import RegisterConsultant from '../pages/Auth/RegisterConsultant'
-import ProtectedRoute from '../pages/Auth/Role/ProtectedRoute';
 import UnauthorizedPage from '../pages/Error/UnauthorizedPage';
+import ProtectedRouteConsultant from "./ProtectedRouteConsultant";
+import ProtectedRouteUser from "./ProtectedRouteUser";
+
 
 const AppRoutes = () => {
     return (
@@ -20,13 +22,20 @@ const AppRoutes = () => {
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/register-consultant" element={<RegisterConsultant />} />
             <Route exact path="/home" element={<Home />} />
-            <Route exact path="/profile" element={<Profile />} />
+            <Route element={<ProtectedRouteUser/>}>
+                  <Route exact path="/profile" element={<Profile />} />
+            </Route>
             <Route exact path="/usermanagement" element={<UserManagement />} />
-            <Route exact path="/consultant" element={<Consultant />} />
+            {/* <Route exact path="/consultant" element={<Consultant />} /> */}
+            <Route element={<ProtectedRouteConsultant/>}>
+                  <Route exact path="/consultant" element={<Consultant />} />
+            </Route>
             <Route path="*" element={<NotFound />} />
             <Route exact path="/unauthorized" element={<UnauthorizedPage />} />
         </Routes>
     )
+
+    
 }
 
 export default AppRoutes

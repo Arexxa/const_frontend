@@ -26,6 +26,8 @@ function Login() {
                 navigate('/consultant');
             } else if (user.roleId === 3) {
                 navigate('/profile');
+            } else if (user.roleId === 1) {
+                navigate('/usermanagement');
             }
         }
     }, [user, navigate]);
