@@ -47,7 +47,7 @@ const user = {
 
 export default function Profile() {
   const { userData } = useLogin();
-  const { userProfile, fetchUserProfile, deleteDocument } = useProfile();
+  const { userProfile, fetchUserProfile, deleteDocument, fetchUserPDF } = useProfile();
   const [isExperienceOpen, setIsExperienceOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isEducationOpen, setIsEducationOpen] = useState(false);
@@ -81,15 +81,41 @@ export default function Profile() {
     }
   }
 
-  const handlePreview = (fileData) => {
-    const base64Data = fileData.split(',')[1];
-    const binaryData = atob(base64Data);
+  // const handlePreview = (fileData) => {
+  //   const base64Data = fileData.split(',')[1];
+  //   const binaryData = atob(base64Data);
 
-    const blob = new Blob([binaryData], { type: 'application/pdf' });
-    const url = URL.createObjectURL(blob);
+  //   const blob = new Blob([binaryData], { type: 'application/pdf' });
+  //   const url = URL.createObjectURL(blob);
 
-    window.open(url, '_blank');
-  }
+  //   window.open(url, '_blank');
+  // }
+
+  const handlePreview = async (documentId) => {
+    try {
+        // Fetch PDF data for the given documentId
+        const base64Data = await fetchUserPDF(documentId);
+
+        if (!base64Data) {
+            throw new Error('Base64 data is undefined');
+        }
+
+        // Convert the Base64 string to a Uint8Array
+        const byteArray = new Uint8Array(atob(base64Data.split(',')[1]).split('').map(char => char.charCodeAt(0)));
+
+        // Create a blob from the Uint8Array data
+        const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+        // Create a URL for the blob
+        const url = URL.createObjectURL(blob);
+
+        // Open the URL in a new tab to view the PDF
+        window.open(url);
+    } catch (error) {
+        console.error('Error handling attachment click:', error);
+        // Handle error (e.g., show error message to user)
+    }
+  };
 
   useEffect(() => {
     if (userid) {
@@ -355,7 +381,10 @@ export default function Profile() {
                               <div className="grid grid-cols-1 gap-6 mt-5 md:grid-cols-2">
                                 <div>
                                   <p className="abel text-left text-sm">
-                                    <a href="" className="text-blue-500 focus:outline-none focus:underline hover:underline" onClick={() => {handlePreview(application.fileData)}}>Preview</a>
+                                    {/* <a href="" className="text-blue-500 focus:outline-none focus:underline hover:underline" onClick={() => {handlePreview(application.fileData)}}>Preview</a> */}
+                                    <a href="#" onClick={() => handlePreview(application.documentId)} className="text-blue-500 hover:underline">
+                                        Preview
+                                    </a>
                                   </p>
                                 </div>
                                 <div>

@@ -99,8 +99,18 @@ export const ProfileProvider = ({ children }) => {
         }
     }
 
+    const fetchUserPDF = async (documentId) => {
+        try {
+            const response = await baseUrl.get(`/pdf/${documentId}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching PDF data:', error);
+            throw new Error('Failed to fetch PDF data');
+        }
+    };
+
     return (
-        <ProfileContext.Provider value={{ userProfile, error, fetchUserProfile, updateUserProfile, roles, getRoles, universities, getUniversity, updateWorkExperience, deleteDocument }}>
+        <ProfileContext.Provider value={{ userProfile, error, fetchUserProfile, updateUserProfile, roles, getRoles, universities, getUniversity, updateWorkExperience, deleteDocument, fetchUserPDF }}>
             {children}
         </ProfileContext.Provider>
     );
