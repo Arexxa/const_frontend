@@ -12,7 +12,7 @@ import RegisterConsultant from '../pages/Auth/RegisterConsultant'
 import UnauthorizedPage from '../pages/Error/UnauthorizedPage';
 import ProtectedRouteConsultant from "./ProtectedRouteConsultant";
 import ProtectedRouteUser from "./ProtectedRouteUser";
-
+import ProtectedRouteAdmin from "./ProtectedRouteAdmin";
 
 const AppRoutes = () => {
     return (
@@ -25,7 +25,9 @@ const AppRoutes = () => {
             <Route element={<ProtectedRouteUser/>}>
                   <Route exact path="/profile" element={<Profile />} />
             </Route>
-            <Route exact path="/usermanagement" element={<UserManagement />} />
+            <Route element={<ProtectedRouteAdmin/>}>
+                  <Route exact path="/usermanagement" element={<UserManagement />} />
+            </Route>
             {/* <Route exact path="/consultant" element={<Consultant />} /> */}
             <Route element={<ProtectedRouteConsultant/>}>
                   <Route exact path="/consultant" element={<Consultant />} />
