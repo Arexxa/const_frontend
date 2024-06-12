@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 import baseUrl from '../../../../utils/api';
+const { useCustomToast } = require('../../../../components/Toast/toast');
 
 const UserContext = createContext();
 
@@ -10,6 +11,7 @@ export const useProfile = () => {
 export const UserProvider = ({ children }) => {
     const [userList, setUserList] = useState(null);
     const [error, setError] = useState(null);
+    const { showToast } = useCustomToast();
 
     const fetchUserList = async () => {
         try {
@@ -40,20 +42,24 @@ export const UserProvider = ({ children }) => {
             console.log(response);
             const updatedUserList = response.data.result;
             setUserList(updatedUserList);
+            showToast('success', 'Note updated successfully'); // Show success toast
         } catch (error) {
             console.error('Error updating user note:', error);
             setError('Failed to update user note');
+            showToast('error', error.response?.data?.error || 'Failed to update user note'); // Show error toast with backend error message if available, otherwise generic message
         }
     };
-
+    
     const updateUserStatus = async (userId, newStatus) => {
         try {
-          const response = await baseUrl.post(`/consultant/detail/status`, { userId, status: newStatus });
-          const updatedUserList = response.data.result;
-          setUserList(updatedUserList);
+            const response = await baseUrl.post(`/consultant/detail/status`, { userId, status: newStatus });
+            const updatedUserList = response.data.result;
+            setUserList(updatedUserList);
+            showToast('success', 'User status updated successfully'); // Show success toast
         } catch (error) {
-          console.error('Error updating user status:', error);
-          setError('Failed to update user status');
+            console.error('Error updating user status:', error);
+            setError('Failed to update user status');
+            showToast('error', error.response?.data?.error || 'Failed to update user status'); // Show error toast with backend error message if available, otherwise generic message
         }
     };
 

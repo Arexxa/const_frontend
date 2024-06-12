@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
 const userNavigation = [
-  { name: 'Dashboard', href: '/home', icon: HomeIcon, current: false },
+  // { name: 'Dashboard', href: '/home', icon: HomeIcon, current: false },
   { name: 'Profile', href: '/profile', icon: UserIcon, current: window.location.pathname === "/profile" },
   { name: 'Job Application Status', href: '#', icon: BriefcaseIcon, current: false },
   { name: 'Job bookmarked', href: '#', icon: BookmarkIcon, current: false },
@@ -58,6 +58,7 @@ export default function Example() {
 
   useEffect(() => {
     const roleId = localStorage.getItem('roleId');
+    setRole(roleId);
     let newNavigation = [];
 
     if (roleId === '2') {

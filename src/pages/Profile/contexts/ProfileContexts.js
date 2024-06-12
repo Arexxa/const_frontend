@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 import baseUrl from '../../../utils/api';
+import { useCustomToast } from '../../../components/Toast/toast';
 
 const ProfileContext = createContext();
 
@@ -12,6 +13,7 @@ export const ProfileProvider = ({ children }) => {
     const [error, setError] = useState(null);
     const [roles, setRoles] = useState(null);
     const [universities, setUniversities] = useState(null);
+    const { showToast } = useCustomToast();
 
     const fetchUserProfile = async (userId) => {
         try {
@@ -30,9 +32,11 @@ export const ProfileProvider = ({ children }) => {
         try {
             const response = await baseUrl.put('/user/profile/update', updatedData);
             setUserProfile(response.data.result);
+            showToast('success', 'Profile updated successfully'); // Show success toast
         } catch (error) {
             console.error('Error updating user profile:', error);
-            setError('Failed to update user profile');
+            setError(error.response ? error.response.data.error : 'Failed to update user profile');
+            showToast('error', error.response ? error.response.data.error : 'Failed to update user profile'); // Show error toast
         }
     };
 
@@ -77,27 +81,29 @@ export const ProfileProvider = ({ children }) => {
         }
     };
 
-    const updateWorkExperience = async (userId, workExperienceId,updatedWorkExperience) => {
+    const updateWorkExperience = async (userId, workExperienceId, updatedWorkExperience) => {
         try {
-            const response = await baseUrl.put(`/experience/detail/update?userId=${userId}&workExperienceId=${workExperienceId}`, updatedWorkExperience)
-            console.log(response)
-            setUserProfile(response)
+            const response = await baseUrl.put(`/experience/detail/update?userId=${userId}&workExperienceId=${workExperienceId}`, updatedWorkExperience);
+            console.log(response);
+            setUserProfile(response);
         } catch (error) {
             console.error('Error updating user work experience:', error);
-            setError('Failed to update user work experience');
+            setError(error.response ? error.response.data.error : 'Failed to update user work experience');
+            showToast('error', error.response ? error.response.data.error : 'Failed to update user work experience'); // Show error toast
         }
-    }
+    };
 
-    const deleteDocument = async (userId,documentId) => {
+    const deleteDocument = async (userId, documentId) => {
         try {
-            const response = await baseUrl.delete(`/application/detail/delete?userId=${userId}&documentId=${documentId}`)
-            console.log(response)
-            setUserProfile(response)
+            const response = await baseUrl.delete(`/application/detail/delete?userId=${userId}&documentId=${documentId}`);
+            console.log(response);
+            setUserProfile(response);
         } catch (error) {
-            console.error('Error deleting cpver letter or resume:', error);
-            setError('Failed to detele cover letter or resume');
+            console.error('Error deleting cover letter or resume:', error);
+            setError(error.response ? error.response.data.error : 'Failed to delete cover letter or resume');
+            showToast('error', error.response ? error.response.data.error : 'Failed to delete cover letter or resume'); // Show error toast
         }
-    }
+    };
 
     const fetchUserPDF = async (documentId) => {
         try {
