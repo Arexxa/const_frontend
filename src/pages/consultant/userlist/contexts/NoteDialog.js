@@ -1,16 +1,25 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Transition, Dialog } from '@headlessui/react';
-import { useLogin } from '../../../Auth/Login/contexts/LoginContext';
 import { useProfile } from './UserListContext';
+import { MailIcon } from '@heroicons/react/solid';
+import whatsappIcon from '../../../../assets/svg/whatsapp.svg'
 
 export default function NoteDialog({ isNoteOpen, notePanel, userId, noteId }) {
   const { userList, fetchUserList, updateNote } = useProfile();
   const [formData, setFormData] = useState({ title: '', description: '' });
+  const [userName, setUserName] = useState('');
+  const [userPosition, setUserPosition] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userContact, setUserContact] = useState('');
 
   useEffect(() => {
     if (isNoteOpen && userList) {
       const selectedUser = userList.find(user => user.userId === userId);
       if (selectedUser) {
+        setUserName(selectedUser.name);
+        setUserEmail(selectedUser.email || 'N/A');
+        setUserContact(selectedUser.contact_no || 'N/A');
+        setUserPosition(selectedUser.workExperience && selectedUser.workExperience[0] && selectedUser.workExperience[0].position ? selectedUser.workExperience[0].position : 'N/A');
         const selectedNote = selectedUser.notes.find(note => note.noteId === noteId);
         if (selectedNote) {
           setFormData({
@@ -75,30 +84,18 @@ export default function NoteDialog({ isNoteOpen, notePanel, userId, noteId }) {
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-lg">
                   <div className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
-                    <div className="px-4 pt-4 pb-4 sm:px-6">
-                      <div className="flex items-start justify-between">
-                        <Dialog.Title className="text-xl font-semibold leading-6 text-gray-900">
-                          Notes
-                        </Dialog.Title>
-                        <div className="ml-3 flex h-7 items-center">
-                          <button
-                            type="button"
-                            className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-transparent"
-                            onClick={notePanel}
-                          >
-                            <span className="absolute -inset-2.5" />
-                            <span className="sr-only">Close panel</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                              <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
                     <div className="flex min-h-0 flex-1 flex-col overflow-y-scroll py-6">
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                        {/* Your content */}
-                        <section className="max-w-4xl p-6 mx-auto bg-gray-200 rounded-md dark:bg-gray-800">
+                        <div className="text-xl font-semibold leading-6 text-gray-900">
+                          {userName}
+                        </div>
+                        <div className="text-sm font-regular leading-6 text-gray-900 mb-8">
+                          {userPosition}
+                        </div>
+                        <div className="text-sm font-semibold leading-6 text-gray-900 mb-2">
+                          Notes
+                        </div>
+                        <section className="max-w-4xl p-6 mx-auto notes-bg-color rounded-md dark:bg-gray-800">
                             <form onSubmit={handleSubmit}>
                                 <div className="pb-4">
                                     <label htmlFor="title" className="block text-sm font-medium leading-6 text-gray-900">
@@ -145,6 +142,18 @@ export default function NoteDialog({ isNoteOpen, notePanel, userId, noteId }) {
                                 </div>
                             </form>
                         </section>
+
+                        <div className="text-sm font-semibold leading-6 text-red-700 mt-14">
+                          User’s contact
+                        </div>
+                        <div className="mt-2 flex items-center text-sm font-regular leading-6 text-black">
+                            <MailIcon className="h-5 w-5 text-black mr-2" />
+                            {userEmail}
+                          </div>
+                          <div className="mt-2 flex items-center text-sm font-regular leading-6 text-black">
+                            <img src={whatsappIcon} className="h-5 w-5 text-black mr-2" alt="WhatsApp Logo" />
+                            {userContact}
+                          </div>
                       </div>
                     </div>
                   </div>

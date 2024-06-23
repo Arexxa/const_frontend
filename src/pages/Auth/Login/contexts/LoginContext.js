@@ -65,6 +65,7 @@ export const LoginProvider = ({ children }) => {
     const logout = () => {
         setUser(null);
         setUserData(null);
+        showToast('success', 'You have been signed out');
         // Clear userData from local storage on logout
         localStorage.removeItem('userData');
         localStorage.removeItem('userid');

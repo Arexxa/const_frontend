@@ -121,3 +121,8 @@ body {
     height: 24px;
     margin-right: 10px;
 }
+
+.notes-bg-color {
+    background-color: #D9D9D933;
+    border: #C1C0C0 0.5px solid;
+}

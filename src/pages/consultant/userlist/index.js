@@ -140,23 +140,11 @@ export default function Consultant() {
                                     <div className="sm:flex sm:items-center sm:justify-between">
                                         <div>
                                             <div className="flex items-center gap-x-3">
-                                                <h2 className="text-lg font-medium text-gray-800 dark:text-white">Home</h2>
+                                                <h2 className="text-2xl font-medium text-black dark:text-white">Home</h2>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div className="mt-6 md:flex md:items-center md:justify-between">
-                                        <div className="inline-flex overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700">
-                                            <button className="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:bg-gray-800 dark:text-gray-300">
-                                                View all
-                                            </button>
-
-                                            <button className="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
-                                                Bookmarked
-                                            </button>
-                                        </div>
-
-                                        <div className="relative flex items-center mt-4 md:mt-0">
+                                        <div className="relative flex items-center md:mt-0">
                                             <span className="absolute">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -170,6 +158,19 @@ export default function Consultant() {
                                                 onChange={handleSearchChange} 
                                             />
                                         </div>
+                                    </div>
+
+                                    <div className="rounded-lg p-2 bg-[#F1F4F9] mt-6 md:flex md:items-center md:justify-between">
+                                        <div className="inline-flex overflow-hidden bg-white divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700">
+                                            <button className="px-5 py-2 text-xs font-medium text-black transition-colors duration-200 bg-white sm:text-sm dark:bg-gray-800 dark:text-gray-300 hover:bg-slate-50">
+                                                View all
+                                            </button>
+
+                                            <button className="px-5 py-2 text-xs font-medium text-black transition-colors duration-200 sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-slate-50">
+                                                Bookmarked
+                                            </button>
+                                        </div>
+
                                     </div>
 
                                     <div className="flex flex-col mt-6">
@@ -202,6 +203,10 @@ export default function Consultant() {
                                                                 </th>
 
                                                                 <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                                    Last Updated
+                                                                </th>
+
+                                                                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400">
                                                                     Add notes
                                                                 </th>
                                                             </tr>
@@ -231,8 +236,8 @@ export default function Consultant() {
                                                                                 .filter(application => application.documentType === 'Resume')
                                                                                 .map(application => (
                                                                                     <div key={application.documentId}>
-                                                                                        <a href="#" onClick={() => handleAttachmentClick(application.documentId)} className="text-blue-500 hover:underline">
-                                                                                            Attachment
+                                                                                        <a href="#" onClick={() => handleAttachmentClick(application.documentId)} className="text-linkPreviewColor hover:underline">
+                                                                                            Preview
                                                                                         </a>
                                                                                     </div>
                                                                                 ))
@@ -251,23 +256,43 @@ export default function Consultant() {
                                                                         )}
                                                                     </td>
                                                                     <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                                                        <select
-                                                                            value={user.status || ''}
-                                                                            onChange={(e) => handleStatusChange(user.userId, e.target.value)}
-                                                                            className={`block w-full rounded-md border-transparent cursor-pointer focus:ring-transparent focus:border-transparent sm:text-sm ${user.status === 'pending' ? 'bg-orange-100 text-orange-500' : user.status === 'viewed' ? 'bg-red-100 text-red-500' : ''}`}
-                                                                        >
+                                                                    <select
+                                                                        value={user.status || ''}
+                                                                        onChange={(e) => handleStatusChange(user.userId, e.target.value)}
+                                                                        className={`inline px-3 py-1 text-sm font-normal rounded-full cursor-pointer focus:ring-transparent focus:border-transparent sm:text-sm 
+                                                                        ${user.status === 'pending' ? 'border-transparent bg-customOrangeBackground text-customOrangeText' :
+                                                                          user.status === 'viewed' ? 'border-transparent bg-customRedBackground text-customRedText' :
+                                                                          'border-inherit'
+                                                                        }`}
+                                                                    >
                                                                             <option value=""></option>
                                                                             <option value="pending">Pending</option>
                                                                             <option value="viewed">Viewed</option>
                                                                         </select>
                                                                     </td>
                                                                     <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                                                        {user.workExperience && user.workExperience.length > 0 && (
+                                                                            user.workExperience
+                                                                            .filter(we => we.currentEmployer === 1)
+                                                                            .map(we => (
+                                                                                <div key={we.workExperienceId}>
+                                                                                {/* Check if uploadDate exists and is not null before formatting */}
+                                                                                {we.uploadDate ? (
+                                                                                    new Date(we.uploadDate).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })
+                                                                                ) : (
+                                                                                    ""
+                                                                                )}
+                                                                                </div>
+                                                                            ))
+                                                                        )}
+                                                                    </td>
+                                                                    <td className="px-4 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
                                                                         {user.notes && user.notes.length > 0 ? (
                                                                             user.notes.map(note => (
                                                                                 <div key={note.noteId}>
                                                                                     <button
                                                                                         type="button"
-                                                                                        className="flex items-center space-x-1 text-gray-400 hover:text-gray-300"
+                                                                                        className="flex inline px-3 py-1 text-sm font-normal rounded-md items-center space-x-1 text-white bg-black hover:text-gray-300"
                                                                                         onClick={() => notePanel(user.userId, note.noteId)}
                                                                                     >
                                                                                         <span>Edit</span>
@@ -277,7 +302,7 @@ export default function Consultant() {
                                                                         ) : (
                                                                             <button
                                                                                 type="button"
-                                                                                className="flex items-center space-x-1 text-gray-400 hover:text-gray-300"
+                                                                                className="flex inline px-3 py-1 text-sm font-normal rounded-md items-center space-x-1 text-white bg-black hover:text-gray-300"
                                                                                 onClick={() => notePanel(user.userId, null)}
                                                                             >
                                                                                 <span>Edit</span>
@@ -294,37 +319,37 @@ export default function Consultant() {
                                     </div>
 
                                     <div className="mt-6 sm:flex sm:items-center sm:justify-between">
-                {/* Pagination */}
-                <div className="text-sm text-gray-500 dark:text-gray-400">
-                    Page <span className="font-medium text-gray-700 dark:text-gray-100">{currentPage} of {totalPages}</span>
-                </div>
+                                        {/* Pagination */}
+                                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                                            Page <span className="font-medium text-gray-700 dark:text-gray-100">{currentPage} of {totalPages}</span>
+                                        </div>
 
-                <div className="flex items-center mt-4 gap-x-4 sm:mt-0">
-                    {/* Previous button */}
-                    <button
-                        onClick={prevPage}
-                        className={`flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800'}`}
-                        disabled={currentPage === 1}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 rtl:-scale-x-100">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
-                        </svg>
-                        <span>Previous</span>
-                    </button>
+                                        <div className="flex items-center mt-4 gap-x-4 sm:mt-0">
+                                            {/* Previous button */}
+                                            <button
+                                                onClick={prevPage}
+                                                className={`flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800'}`}
+                                                disabled={currentPage === 1}
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 rtl:-scale-x-100">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                                                </svg>
+                                                <span>Previous</span>
+                                            </button>
 
-                    {/* Next button */}
-                    <button
-                        onClick={nextPage}
-                        className={`flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800'}`}
-                        disabled={currentPage === totalPages}
-                    >
-                        <span>Next</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 rtl:-scale-x-100">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
+                                            {/* Next button */}
+                                            <button
+                                                onClick={nextPage}
+                                                className={`flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800'}`}
+                                                disabled={currentPage === totalPages}
+                                            >
+                                                <span>Next</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 rtl:-scale-x-100">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
 
                                 </section>
                             </div>
