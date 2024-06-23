@@ -14,6 +14,11 @@ module.exports = {
         header: "var(--header)",
         accent: "var(--accent)",
         btnPrimary: "var(--btnPrimary)",
+        customOrangeBackground: '#FFF2E6',
+        customOrangeText: '#FF7A00',
+        customRedBackground: '#FCECE7',
+        customRedText: '#F64343',
+        linkPreviewColor: '#3583F7',
       },
       screens: {
         sm: { min: "640px" }, // large mobiles
